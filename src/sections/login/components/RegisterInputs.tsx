@@ -4,8 +4,6 @@ import TextInput from "../../../components/inputs/TextInput";
 
 interface FormData {
   name: string;
-  surname: string;
-  userName: string;
   email: string;
   password: string;
   repeatPassword: string;
@@ -13,8 +11,6 @@ interface FormData {
 
 interface FormErrors {
   name: boolean;
-  surname: boolean;
-  userName: boolean;
   email: boolean;
   password: boolean;
   repeatPassword;
@@ -37,8 +33,6 @@ function RegisterInputs({
     const resetInputs = () => {
       setFormDataRegister({
         name: "",
-        surname: "",
-        userName: "",
         email: "",
         password: "",
         repeatPassword: "",
@@ -70,24 +64,6 @@ function RegisterInputs({
           onChange={handleChange}
           placeholder="Enter your name"
           error={errors.name}
-        />
-        <div className="mb-[20px]"></div>
-        <TextInput
-          label="Surname"
-          name="surname"
-          value={formDataRegister.surname}
-          onChange={handleChange}
-          placeholder="Enter your surname"
-          error={errors.surname}
-        />
-        <div className="mb-[20px]"></div>
-        <TextInput
-          label="User Name"
-          name="userName"
-          value={formDataRegister.userName}
-          onChange={handleChange}
-          placeholder="Enter your userName"
-          error={errors.userName}
         />
         <div className="mb-[20px]"></div>
         <TextInput

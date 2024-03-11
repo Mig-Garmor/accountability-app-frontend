@@ -4,6 +4,7 @@ import CustomButton from "../../components/CustomButton";
 import LoginInputs from "./components/LoginInputs";
 import RegisterInputs from "./components/RegisterInputs";
 import { LoginComponents } from "./types/types";
+import { loginUser, registerUser } from "./services/apiRequests";
 
 interface LoginFormData {
   email: string;
@@ -17,8 +18,6 @@ interface LoginErrors {
 
 interface RegisterFormData {
   name: string;
-  surname: string;
-  userName: string;
   email: string;
   password: string;
   repeatPassword: string;
@@ -26,8 +25,6 @@ interface RegisterFormData {
 
 interface RegisterFormErrors {
   name: boolean;
-  surname: boolean;
-  userName: boolean;
   email: boolean;
   password: boolean;
   repeatPassword: boolean;
@@ -50,8 +47,6 @@ function Login() {
   //Register Form
   const [formDataRegister, setFormDataRegister] = useState<RegisterFormData>({
     name: "",
-    surname: "",
-    userName: "",
     email: "",
     password: "",
     repeatPassword: "",
@@ -87,11 +82,12 @@ function Login() {
     return Object.values(tempErrors).every((x) => x === false);
   };
 
-  const handleLoginRequest = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLoginRequest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateLogin()) {
       console.log("Validated Data:", formDataLogin);
-      // Here you would handle submission, such as sending data to a server
+      const response = await loginUser(formDataLogin);
+      console.log("RESPONSE LOGIN: ", response);
     }
   };
 
@@ -99,10 +95,6 @@ function Login() {
     const tempErrors: Partial<RegisterFormErrors> = {};
     // Name validation
     tempErrors.name = formDataRegister.name ? false : true;
-    // Surname validation
-    tempErrors.surname = formDataRegister.surname ? false : true;
-    // Username validation
-    tempErrors.userName = formDataRegister.userName ? false : true;
     // Email validation
     tempErrors.email = formDataRegister.email
       ? /\S+@\S+\.\S+/.test(formDataRegister.email)
@@ -122,11 +114,12 @@ function Login() {
     return Object.values(tempErrors).every((x) => x === false);
   };
 
-  const handleRegisterRequest = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegisterRequest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateRegister()) {
       console.log("Validated Data:", formDataRegister);
-      // Here you would handle the register submission, such as sending data to a server
+      const response = await registerUser(formDataRegister);
+      console.log("RESPONSE Register: ", response);
     }
   };
   const renderInputComponent = () => {
