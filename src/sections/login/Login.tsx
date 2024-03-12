@@ -107,6 +107,7 @@ function Login() {
         console.log("Login successful:", response);
         // Handle successful login (e.g., redirecting the user, storing the login state)
         dispatch(storeAccessToken(response));
+        localStorage.setItem("token", response);
       } catch (error) {
         if (error instanceof Error) {
           // Now it's safe to assume error has a message property
@@ -151,6 +152,7 @@ function Login() {
       console.log("RESPONSE Register: ", response);
     }
   };
+
   const renderInputComponent = () => {
     switch (activeComponent) {
       case "login":
