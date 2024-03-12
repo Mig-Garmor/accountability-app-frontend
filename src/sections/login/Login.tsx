@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import CustomButton from "../../components/CustomButton";
 import LoginInputs from "./components/LoginInputs";
 import RegisterInputs from "./components/RegisterInputs";
 import { LoginComponents } from "./types/types";
 import { loginUser, registerUser } from "./services/apiRequests";
+import { useDispatch, useSelector } from "react-redux";
+import { storeAccessToken } from "../../features/generalStore/generalSlice";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../../features/store";
 
 interface LoginFormData {
   email: string;
@@ -31,6 +35,11 @@ interface RegisterFormErrors {
 }
 
 function Login() {
+  const navigation = useNavigate();
+  const dispatch = useDispatch();
+
+  const { accessToken } = useSelector((state: RootState) => state.general);
+
   const [activeComponent, setActiveComponent] =
     useState<LoginComponents>("login");
 
@@ -57,6 +66,14 @@ function Login() {
   >({});
 
   //- Register Form
+
+  //Navigate to Main Page
+  useEffect(() => {
+    if (accessToken) {
+      navigation("/");
+    }
+  }, [accessToken]);
+  //- Navigate to Main Page
 
   const renderButtonText = () => {
     switch (activeComponent) {
@@ -85,9 +102,21 @@ function Login() {
   const handleLoginRequest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateLogin()) {
-      console.log("Validated Data:", formDataLogin);
-      const response = await loginUser(formDataLogin);
-      console.log("RESPONSE LOGIN: ", response);
+      try {
+        const response = await loginUser(formDataLogin);
+        console.log("Login successful:", response);
+        // Handle successful login (e.g., redirecting the user, storing the login state)
+        dispatch(storeAccessToken(response));
+      } catch (error) {
+        if (error instanceof Error) {
+          // Now it's safe to assume error has a message property
+          console.error("Login failed:", error.message);
+        } else {
+          // Handle cases where the error is not an Error object
+          console.error("Login failed: Unknown error");
+        }
+        setErrorsLogin({ email: true, password: true });
+      }
     }
   };
 
