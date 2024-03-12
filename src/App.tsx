@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./sections/login/Login";
 import Home from "./sections/home/Home";
 import ProtectedRoute from "./components/inputs/ProtectedRoute";
+import Layout from "./layout/Layout";
 
 function App() {
   return (
@@ -13,11 +14,12 @@ function App() {
           path="/"
           element={
             <ProtectedRoute>
-              <Home />
+              <Layout />
             </ProtectedRoute>
           }
-        />
-        {/* Add more routes as needed */}
+        >
+          <Route index element={<Home />} />
+        </Route>
       </Routes>
     </Router>
   );
