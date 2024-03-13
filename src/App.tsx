@@ -4,17 +4,21 @@ import Login from "./sections/login/Login";
 import Home from "./sections/home/Home";
 import ProtectedRoute from "./components/inputs/ProtectedRoute";
 import Layout from "./layout/Layout";
+import { NavigationProvider } from "./context/NavigationContext";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+
         <Route
           path="/"
           element={
             <ProtectedRoute>
-              <Layout />
+              <NavigationProvider>
+                <Layout />
+              </NavigationProvider>
             </ProtectedRoute>
           }
         >
