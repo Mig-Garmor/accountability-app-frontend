@@ -5,6 +5,7 @@ import Home from "./sections/home/Home";
 import ProtectedRoute from "./components/inputs/ProtectedRoute";
 import Layout from "./layout/Layout";
 import { NavigationProvider } from "./context/NavigationContext";
+import Group from "./sections/group/Group";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           }
         >
           <Route index element={<Home />} />
+          <Route path="/group" element={<Group />} />
         </Route>
       </Routes>
     </Router>

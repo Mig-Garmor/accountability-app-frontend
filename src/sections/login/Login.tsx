@@ -3,36 +3,20 @@ import React, { useEffect, useState } from "react";
 import CustomButton from "../../components/CustomButton";
 import LoginInputs from "./components/LoginInputs";
 import RegisterInputs from "./components/RegisterInputs";
-import { LoginComponents } from "./types/types";
+import {
+  LoginComponents,
+  LoginErrors,
+  LoginFormData,
+  LoginResponse,
+  RegisterFormData,
+  RegisterFormErrors,
+} from "./types/types";
 import { loginUser, registerUser } from "./services/apiRequests";
 import { useDispatch, useSelector } from "react-redux";
 import { storeAccessToken } from "../../features/generalStore/generalSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../features/store";
-
-interface LoginFormData {
-  email: string;
-  password: string;
-}
-
-interface LoginErrors {
-  email: boolean;
-  password: boolean;
-}
-
-interface RegisterFormData {
-  name: string;
-  email: string;
-  password: string;
-  repeatPassword: string;
-}
-
-interface RegisterFormErrors {
-  name: boolean;
-  email: boolean;
-  password: boolean;
-  repeatPassword: boolean;
-}
+import { storeGroupId } from "../../features/groupStore/groupSlice";
 
 function Login() {
   const navigation = useNavigate();
@@ -103,11 +87,13 @@ function Login() {
     e.preventDefault();
     if (validateLogin()) {
       try {
-        const response = await loginUser(formDataLogin);
+        const response: LoginResponse = await loginUser(formDataLogin);
         console.log("Login successful:", response);
         // Handle successful login (e.g., redirecting the user, storing the login state)
-        dispatch(storeAccessToken(response));
-        localStorage.setItem("token", response);
+        dispatch(storeGroupId(response.group_id));
+        localStorage.setItem("groupId", response.group_id.toString());
+        dispatch(storeAccessToken(response.token));
+        localStorage.setItem("token", response.token);
       } catch (error) {
         if (error instanceof Error) {
           // Now it's safe to assume error has a message property
