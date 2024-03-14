@@ -1,9 +1,8 @@
 import apiClient from "../../apiClient";
 
-export const logoutUser = async () => {
+export const createGroup = async () => {
   try {
-    // Using the apiClient instead of axios directly
-    const response = await apiClient.post("/logout");
+    const response = await apiClient.post("/create-group");
     return response.data;
   } catch (error) {
     console.error("There was an error!", error);

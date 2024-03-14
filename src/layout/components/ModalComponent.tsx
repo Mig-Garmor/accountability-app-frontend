@@ -3,6 +3,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../features/store";
+import { createGroup } from "../../sections/home/apiRequests";
 
 const ModalComponent = ({ onCancel, onAccept }) => {
   const { modalData, modalOpen } = useSelector(
@@ -15,12 +16,21 @@ const ModalComponent = ({ onCancel, onAccept }) => {
     buttonRight: "Accept",
   };
 
+  let acceptAction = () => {
+    onAccept();
+  };
+
   if (!modalOpen) return null;
 
   switch (modalData?.name) {
     case "createGroup":
       modalContent.body = "Are you sure you want to create a new group?";
       modalContent.buttonRight = "Create group";
+      acceptAction = async () => {
+        const response = await createGroup();
+        console.log("Response: Create Group: ", response);
+        onAccept();
+      };
       break;
   }
 
@@ -36,7 +46,7 @@ const ModalComponent = ({ onCancel, onAccept }) => {
             {modalContent.buttonLeft}
           </button>
           <button
-            onClick={onAccept}
+            onClick={acceptAction}
             className="py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded text-white"
           >
             {modalContent.buttonRight}
