@@ -5,29 +5,36 @@ import Home from "./sections/home/Home";
 import ProtectedRoute from "./components/inputs/ProtectedRoute";
 import Layout from "./layout/Layout";
 import { NavigationProvider } from "./context/NavigationContext";
+import { QueryClient, QueryClientProvider } from "react-query";
+
 import Group from "./sections/group/Group";
+
+// Create a client
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
 
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <NavigationProvider>
-                <Layout />
-              </NavigationProvider>
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Home />} />
-          <Route path="/group" element={<Group />} />
-        </Route>
-      </Routes>
-    </Router>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <NavigationProvider>
+                  <Layout />
+                </NavigationProvider>
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Home />} />
+            <Route path="/group" element={<Group />} />
+          </Route>
+        </Routes>
+      </Router>
+    </QueryClientProvider>
   );
 }
 

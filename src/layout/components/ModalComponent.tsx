@@ -3,7 +3,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../features/store";
-import { createGroup } from "../../sections/home/apiRequests";
+import { createGroup } from "../../sections/home/services/apiRequests";
 
 const ModalComponent = ({ onCancel, onAccept }) => {
   const { modalData, modalOpen } = useSelector(
