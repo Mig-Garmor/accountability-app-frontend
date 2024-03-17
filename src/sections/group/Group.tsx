@@ -7,12 +7,29 @@ import {
   storeCustomModalComponent,
   toggleCustomModal,
 } from "../../features/generalStore/generalSlice";
+import { useEffect, useState } from "react";
 
 const Group = () => {
   const dispatch = useDispatch();
 
-  const { groupId } = useSelector((state: RootState) => state.group);
-  const { data: group, error, isLoading } = useGroup(groupId ? groupId : 0);
+  const { groupId, refetchGroupData } = useSelector(
+    (state: RootState) => state.group
+  );
+  const {
+    data: group,
+    error,
+    isLoading,
+    refetch,
+  } = useGroup(groupId ? groupId : 0);
+
+  const [componentLoaded, setComponentLoaded] = useState(false);
+
+  useEffect(() => {
+    if (componentLoaded) {
+      refetch();
+    }
+    setComponentLoaded(true);
+  }, [refetchGroupData]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;

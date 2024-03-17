@@ -3,16 +3,19 @@ import { Dispatch, SetStateAction } from "react";
 interface Props {
   selectedDate: string;
   setSelectedDate: Dispatch<SetStateAction<string>>;
+  error: boolean;
 }
 
-const DateSelector = ({ selectedDate, setSelectedDate }: Props) => {
+const DateSelector = ({ selectedDate, setSelectedDate, error }: Props) => {
   // Handler to update state when the date changes
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
   };
 
   return (
-    <div>
+    <div
+      className={`rounded-[4px] px-[10px] ${error && "border border-red-500"}`}
+    >
       <label htmlFor="dateSelector">Select a date: </label>
       <input
         type="date"

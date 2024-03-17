@@ -10,9 +10,12 @@ export const createGroup = async () => {
   }
 };
 
-export const createChallenge = async (groupId: number) => {
+export const createChallenge = async (groupId: number, startDate: string) => {
   try {
-    const response = await apiClient.post("/challenge", { groupId: groupId });
+    const response = await apiClient.post("/challenge", {
+      groupId: groupId,
+      startDate: startDate,
+    });
     return response.data;
   } catch (error) {
     console.error("There was an error!", error);
