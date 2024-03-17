@@ -14,7 +14,7 @@ export const createChallenge = async (groupId: number, startDate: string) => {
   try {
     const response = await apiClient.post("/challenge", {
       groupId: groupId,
-      startDate: startDate,
+      startDate: `${startDate}`,
     });
     return response.data;
   } catch (error) {
