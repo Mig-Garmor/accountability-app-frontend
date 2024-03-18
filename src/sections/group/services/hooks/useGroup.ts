@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { useQuery, UseQueryResult } from "react-query";
 import apiClient from "../../../../apiClient";
 import { AxiosResponse } from "axios"; // Assuming apiClient is based on axios
+import { GroupData } from "../../interfaceTypes";
 
 // Assuming the type of the data returned by the API
-interface GroupData {
-  // Define the properties of your group data here
-}
 
 const fetchGroup = async (groupId: number): Promise<GroupData> => {
   const response: AxiosResponse<GroupData> = await apiClient.get(

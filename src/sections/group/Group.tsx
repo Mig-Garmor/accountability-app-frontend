@@ -8,6 +8,8 @@ import {
   toggleCustomModal,
 } from "../../features/generalStore/generalSlice";
 import { useEffect, useState } from "react";
+import Challenge from "./components/Challenge";
+import { ChallengeType } from "./interfaceTypes";
 
 const Group = () => {
   const dispatch = useDispatch();
@@ -35,19 +37,26 @@ const Group = () => {
   if (error) return <div>An error occurred: {error.message}</div>;
 
   return (
-    <div>
-      <h1>Group Details</h1>
+    <div className="p-[20px]">
+      <h1 className="text-3xl mb-[30px]">Group Details</h1>
       {/* Render your group details here */}
-      <pre>{JSON.stringify(group, null, 2)}</pre>
-      <IconButton
-        Icon={<GoPlus />}
-        action={() => {
-          dispatch(storeCustomModalComponent("createNewChallenge"));
-          dispatch(toggleCustomModal());
-        }}
-        label="Create new Challenge"
-        showStyles
-      />
+      {/* <pre>{JSON.stringify(group, null, 2)}</pre> */}
+      <div className="grid grid-cols-2 gap-4">
+        {group?.challenges.map((challenge: ChallengeType) => (
+          <Challenge challenge={challenge} />
+        ))}
+        <div className="flex min-w-[230px] items-center justify-center px-[10px] py-[10px]">
+          <IconButton
+            Icon={<GoPlus />}
+            action={() => {
+              dispatch(storeCustomModalComponent("createNewChallenge"));
+              dispatch(toggleCustomModal());
+            }}
+            label="Create new Challenge"
+            showStyles
+          />
+        </div>
+      </div>
     </div>
   );
 };

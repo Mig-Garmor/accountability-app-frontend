@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import CustomButton from "../../components/CustomButton";
+import CustomButton from "../../components/buttons/CustomButton";
 import LoginInputs from "./components/LoginInputs";
 import RegisterInputs from "./components/RegisterInputs";
 import {

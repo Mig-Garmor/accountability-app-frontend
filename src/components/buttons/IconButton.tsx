@@ -6,22 +6,31 @@ interface Props {
   action: () => void;
   label?: string;
   showStyles?: boolean;
+  customContainerStyles?;
 }
 
 // Child component
-const IconButton = ({ Icon, action, label, showStyles }: Props) => {
+const IconButton = ({
+  Icon,
+  action,
+  label,
+  showStyles,
+  customContainerStyles,
+}: Props) => {
   return (
-    <button
-      className={`flex items-center ${
-        showStyles && "border rounded-[4px] px-[10px] py-[5px]"
-      }`}
-      onClick={() => {
-        action();
-      }}
-    >
-      {Icon}
-      {label && label}
-    </button>
+    <div className={`${customContainerStyles}`}>
+      <button
+        className={`flex items-center ${
+          showStyles && "border rounded-[4px] px-[10px] py-[5px]"
+        }`}
+        onClick={() => {
+          action();
+        }}
+      >
+        {Icon}
+        {label && label}
+      </button>
+    </div>
   );
 };
 
