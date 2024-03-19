@@ -8,17 +8,28 @@ import Tabs from "./components/tabs/Tabs";
 import Home from "./components/tabs/Home";
 import Challenges from "./components/tabs/Challenges";
 import InviteUsers from "./components/tabs/InviteUsers";
+import useUsers from "./services/hooks/useUsers";
 
 const Group = () => {
   const { groupId, refetchGroupData } = useSelector(
     (state: RootState) => state.group
   );
+
+  //Fetch groups
   const {
     data: group,
-    error,
-    isLoading,
-    refetch,
+    error: groupError,
+    isLoading: groupLoading,
+    refetch: groupRefetch,
   } = useGroup(groupId ? groupId : 0);
+
+  //Fetch users
+  const {
+    data: users,
+    error: usersError,
+    isLoading: usersLoading,
+    refetch: usersRefetch,
+  } = useUsers();
 
   const [componentLoaded, setComponentLoaded] = useState(false);
 
@@ -35,13 +46,14 @@ const Group = () => {
 
   useEffect(() => {
     if (componentLoaded) {
-      refetch();
+      groupRefetch();
+      usersRefetch();
     }
     setComponentLoaded(true);
   }, [refetchGroupData]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>An error occurred: {error.message}</div>;
+  if (groupLoading || usersLoading) return <div>Loading...</div>;
+  if (groupError || usersError) return <div>An error occurred</div>;
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -50,7 +62,7 @@ const Group = () => {
       case "challenges":
         return <Challenges />;
       case "inviteUsers":
-        return <InviteUsers />;
+        return <InviteUsers users={users} />;
     }
   };
 

@@ -1,7 +1,16 @@
 import React from "react";
+import { UsersData } from "../../interfaceTypes";
 
-function InviteUsers() {
-  return <div>InviteUsers</div>;
+interface Props {
+  users: UsersData | undefined;
+}
+
+function InviteUsers({ users }: Props) {
+  return (
+    <div>
+      InviteUsers <pre>{JSON.stringify(users, null, 2)}</pre>
+    </div>
+  );
 }
 
 export default InviteUsers;

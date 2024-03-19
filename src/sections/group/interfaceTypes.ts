@@ -9,4 +9,6 @@ export interface GroupData {
   challenges: ChallengeType[];
 }
 
+export interface UsersData {}
+
 export type TabOptions = "home" | "challenges" | "inviteUsers";
