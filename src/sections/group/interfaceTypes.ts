@@ -8,3 +8,5 @@ export interface GroupData {
   id: number;
   challenges: ChallengeType[];
 }
+
+export type TabOptions = "home" | "challenges" | "inviteUsers";

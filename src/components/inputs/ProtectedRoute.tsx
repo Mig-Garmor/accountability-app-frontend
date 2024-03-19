@@ -23,7 +23,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     dispatch(storeAccessToken(tokenLocalStorage));
   }
 
-  return <>{children}</>;
+  return <div className="h-screen">{children}</div>;
 };
 
 export default ProtectedRoute;

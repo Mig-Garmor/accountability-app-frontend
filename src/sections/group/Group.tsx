@@ -1,19 +1,15 @@
 import useGroup from "./services/hooks/useGroup"; // Update the path accordingly
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../features/store";
-import IconButton from "../../components/buttons/IconButton";
-import { GoPlus } from "react-icons/go";
-import {
-  storeCustomModalComponent,
-  toggleCustomModal,
-} from "../../features/generalStore/generalSlice";
+
 import { useEffect, useState } from "react";
-import Challenge from "./components/Challenge";
-import { ChallengeType } from "./interfaceTypes";
+import { TabOptions } from "./interfaceTypes";
+import Tabs from "./components/tabs/Tabs";
+import Home from "./components/tabs/Home";
+import Challenges from "./components/tabs/Challenges";
+import InviteUsers from "./components/tabs/InviteUsers";
 
 const Group = () => {
-  const dispatch = useDispatch();
-
   const { groupId, refetchGroupData } = useSelector(
     (state: RootState) => state.group
   );
@@ -26,6 +22,17 @@ const Group = () => {
 
   const [componentLoaded, setComponentLoaded] = useState(false);
 
+  //Tab state
+  const [activeTab, setActiveTab] = useState<
+    "home" | "challenges" | "inviteUsers"
+  >("home");
+
+  const tabs: { name: string; tab: TabOptions }[] = [
+    { name: "Home", tab: "home" },
+    { name: "Challenges", tab: "challenges" },
+    { name: "Invite Users", tab: "inviteUsers" },
+  ];
+
   useEffect(() => {
     if (componentLoaded) {
       refetch();
@@ -36,26 +43,26 @@ const Group = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;
 
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "home":
+        return <Home group={group} />;
+      case "challenges":
+        return <Challenges />;
+      case "inviteUsers":
+        return <InviteUsers />;
+    }
+  };
+
   return (
-    <div className="p-[20px]">
-      <h1 className="text-3xl mb-[30px]">Group Details</h1>
-      {/* Render your group details here */}
-      {/* <pre>{JSON.stringify(group, null, 2)}</pre> */}
-      <div className="grid grid-cols-2 gap-4">
-        {group?.challenges.map((challenge: ChallengeType) => (
-          <Challenge challenge={challenge} />
-        ))}
-        <div className="flex min-w-[230px] items-center justify-center px-[10px] py-[10px]">
-          <IconButton
-            Icon={<GoPlus />}
-            action={() => {
-              dispatch(storeCustomModalComponent("createNewChallenge"));
-              dispatch(toggleCustomModal());
-            }}
-            label="Create new Challenge"
-            showStyles
-          />
-        </div>
+    <div className="flex flex-col h-full w-full pt-[10px]">
+      <div className="px-[20px]">
+        <Tabs setActiveTab={setActiveTab} activeTab={activeTab} tabs={tabs} />
+      </div>
+
+      {/* Tab content */}
+      <div className="flex w-full h-full border-t border-black px-[20px] py-[10px]">
+        {renderTabContent()}
       </div>
     </div>
   );
