@@ -1,8 +1,9 @@
 export type LoginComponents = "login" | "register";
 
 export interface LoginResponse {
-  token: string;
-  group_id: number;
+  success: boolean;
+  data?: { token: string; group_id: number };
+  error?: any; // Adjusting to accept any type of error
 }
 
 export interface LoginFormData {

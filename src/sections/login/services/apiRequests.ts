@@ -3,12 +3,13 @@ import apiClient from "../../../apiClient";
 
 export const loginUser = async (data: { email: string; password: string }) => {
   try {
-    // Using the apiClient instead of axios directly
     const response = await apiClient.post("/login", data);
-    return response.data;
+    // Assuming success if we reach this line
+    return { success: true, data: response.data };
   } catch (error) {
     console.error("There was an error!", error);
-    throw error;
+    // Return or throw an object indicating failure and containing the error
+    return { success: false, error: error };
   }
 };
 
@@ -22,9 +23,11 @@ export const registerUser = async (data: {
       `${import.meta.env.VITE_BACKEND_URL}/register`,
       data
     );
-    return response.data;
+    // Assuming success if we reach this line
+    return { success: true, data: response.data };
   } catch (error) {
     console.error("There was an error!", error);
-    throw error;
+    // Return or throw an object indicating failure and containing the error
+    return { success: false, error: error };
   }
 };

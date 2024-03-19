@@ -17,6 +17,7 @@ import { storeAccessToken } from "../../features/generalStore/generalSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../features/store";
 import { storeGroupId } from "../../features/groupStore/groupSlice";
+import { toast } from "react-toastify";
 
 function Login() {
   const navigation = useNavigate();
@@ -86,24 +87,22 @@ function Login() {
   const handleLoginRequest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateLogin()) {
-      try {
-        const response: LoginResponse = await loginUser(formDataLogin);
-        console.log("Login successful:", response);
+      const response: LoginResponse = await loginUser(formDataLogin);
+      console.log("Login successful:", response);
+      if (response.success && response.data) {
         // Handle successful login (e.g., redirecting the user, storing the login state)
-        dispatch(storeGroupId(response.group_id));
-        localStorage.setItem("groupId", response.group_id.toString());
-        dispatch(storeAccessToken(response.token));
-        localStorage.setItem("token", response.token);
-      } catch (error) {
-        if (error instanceof Error) {
-          // Now it's safe to assume error has a message property
-          console.error("Login failed:", error.message);
-        } else {
-          // Handle cases where the error is not an Error object
-          console.error("Login failed: Unknown error");
-        }
-        setErrorsLogin({ email: true, password: true });
+        dispatch(storeGroupId(response.data.group_id));
+        localStorage.setItem("groupId", response.data.group_id.toString());
+        dispatch(storeAccessToken(response.data.token));
+        localStorage.setItem("token", response.data.token);
+      } else {
+        toast.error(
+          response.error.message ? response.error.message : "An error occured"
+        );
+        console.log("Login error: ", response.error);
       }
+
+      setErrorsLogin({ email: true, password: true });
     }
   };
 
@@ -135,7 +134,12 @@ function Login() {
     if (validateRegister()) {
       console.log("Validated Data:", formDataRegister);
       const response = await registerUser(formDataRegister);
-      console.log("RESPONSE Register: ", response);
+      if (response.success) {
+        toast.success("Registered successfully");
+        setActiveComponent("login");
+      } else {
+        toast.error("An error occurred");
+      }
     }
   };
 
