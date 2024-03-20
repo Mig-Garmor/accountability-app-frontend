@@ -1,6 +1,6 @@
 import React from "react";
-import { ChallengeType } from "../interfaceTypes";
-import CustomButton from "../../../components/buttons/CustomButton";
+import { ChallengeType } from "../../../interfaceTypes";
+import CustomButton from "../../../../../components/buttons/CustomButton";
 
 interface Props {
   challenge: ChallengeType;

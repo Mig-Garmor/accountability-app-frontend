@@ -5,9 +5,9 @@ import { RootState } from "../../features/store";
 import { useEffect, useState } from "react";
 import { TabOptions } from "./interfaceTypes";
 import Tabs from "./components/tabs/Tabs";
-import Home from "./components/tabs/Home";
-import Challenges from "./components/tabs/Challenges";
-import InviteUsers from "./components/tabs/InviteUsers";
+import Home from "./components/tabs/home/Home";
+import Challenges from "./components/tabs/challenges/Challenges";
+import InviteUsers from "./components/tabs/inviteUsers/InviteUsers";
 import useUsers from "./services/hooks/useUsers";
 
 const Group = () => {
@@ -25,7 +25,7 @@ const Group = () => {
 
   //Fetch users
   const {
-    data: users,
+    data: usersData,
     error: usersError,
     isLoading: usersLoading,
     refetch: usersRefetch,
@@ -62,7 +62,7 @@ const Group = () => {
       case "challenges":
         return <Challenges />;
       case "inviteUsers":
-        return <InviteUsers users={users} />;
+        return <InviteUsers users={usersData?.users} loading={usersLoading} />;
     }
   };
 

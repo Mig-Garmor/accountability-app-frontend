@@ -9,6 +9,13 @@ export interface GroupData {
   challenges: ChallengeType[];
 }
 
-export interface UsersData {}
+export interface UserType {
+  id: number;
+  name: string;
+}
+
+export interface UsersData {
+  users: UserType[];
+}
 
 export type TabOptions = "home" | "challenges" | "inviteUsers";

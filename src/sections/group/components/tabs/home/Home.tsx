@@ -1,13 +1,13 @@
 import React from "react";
-import { ChallengeType, GroupData } from "../../interfaceTypes";
-import Challenge from "../Challenge";
-import IconButton from "../../../../components/buttons/IconButton";
+import { ChallengeType, GroupData } from "../../../interfaceTypes";
+import Challenge from "./Challenge";
+import IconButton from "../../../../../components/buttons/IconButton";
 import { GoPlus } from "react-icons/go";
 import { useDispatch } from "react-redux";
 import {
   storeCustomModalComponent,
   toggleCustomModal,
-} from "../../../../features/generalStore/generalSlice";
+} from "../../../../../features/generalStore/generalSlice";
 
 interface Props {
   group: GroupData | undefined;
