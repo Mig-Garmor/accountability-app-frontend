@@ -18,7 +18,7 @@ const IconButton = ({
   customContainerStyles,
 }: Props) => {
   return (
-    <div className={`${customContainerStyles}`}>
+    <div className={`${customContainerStyles} cursor-pointer`}>
       <button
         className={`flex items-center ${
           showStyles && "border rounded-[4px] px-[10px] py-[5px]"
