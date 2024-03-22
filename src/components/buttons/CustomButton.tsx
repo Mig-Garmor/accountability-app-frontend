@@ -1,12 +1,14 @@
 import React from "react";
+import LoadingSpinner from "../LoadingSpinner";
 
 interface Props {
   action: () => void;
   text: string;
   customStyles?: string;
+  loading?: boolean;
 }
 
-function CustomButton({ text, action, customStyles }: Props) {
+function CustomButton({ text, action, customStyles, loading }: Props) {
   return (
     <div className="flex justify-center w-full">
       <div
@@ -14,7 +16,13 @@ function CustomButton({ text, action, customStyles }: Props) {
          hover:cursor-pointer ${customStyles}`}
         onClick={action}
       >
-        {text}
+        {loading ? (
+          <>
+            text <LoadingSpinner />
+          </>
+        ) : (
+          text
+        )}
       </div>
     </div>
   );
