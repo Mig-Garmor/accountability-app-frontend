@@ -44,8 +44,14 @@ apiClient.interceptors.response.use(
 
     // Handle other HTTP errors or network errors
     if (error.response) {
-      // Handle HTTP errors
-      throw new Error(error.response.data.error.message);
+      if (error?.response?.data?.error?.message) {
+        console.log("ERROR API CLIENT: ", error.response);
+        // Handle HTTP errors
+        throw new Error(error.response.data.error.message);
+      } else {
+        console.log("ERROR API CLIENT: ", error.response);
+        throw new Error(error.response.data.message);
+      }
     } else {
       // Network errors or others
       throw new Error("Network error or unexpected error occurred");

@@ -5,10 +5,18 @@ import { logoutUser } from "../services/apiRequests";
 import { useDispatch } from "react-redux";
 import { storeAccessToken } from "../../features/generalStore/generalSlice";
 import MessagesModal from "./messages/MessagesModal";
+import useMessages from "../services/hooks/useMessages";
 
 function Header() {
   const dispatch = useDispatch();
   const [showMessageModal, setShowMessageModal] = useState(false);
+
+  //Fetch messages
+  const {
+    data: messages,
+    error: messagesError,
+    isLoading: messagesLoading,
+  } = useMessages();
 
   return (
     <div className="flex bg-black w-full h-[30px] items-center justify-between px-[24px]">
@@ -27,7 +35,13 @@ function Header() {
               setShowMessageModal((prev) => !prev);
             }}
           />
-          {showMessageModal ? <MessagesModal /> : null}
+          {showMessageModal ? (
+            <MessagesModal
+              messages={messages}
+              error={messagesError}
+              loading={messagesLoading}
+            />
+          ) : null}
         </div>
 
         <IconButton
