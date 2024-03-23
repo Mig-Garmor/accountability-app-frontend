@@ -91,8 +91,10 @@ function Login() {
       console.log("Login successful:", response);
       if (response.success && response.data) {
         // Handle successful login (e.g., redirecting the user, storing the login state)
-        dispatch(storeGroupId(response.data.group_id));
-        localStorage.setItem("groupId", response.data.group_id.toString());
+        if (response.data?.group_id) {
+          dispatch(storeGroupId(response.data.group_id));
+          localStorage.setItem("groupId", response.data.group_id.toString());
+        }
         dispatch(storeAccessToken(response.data.token));
         localStorage.setItem("token", response.data.token);
       } else {
