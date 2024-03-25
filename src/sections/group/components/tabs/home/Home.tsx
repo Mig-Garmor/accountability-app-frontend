@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import LoadingSpinner from "../../../../../components/LoadingSpinner";
 import { ChallengeType, UserType } from "../../../interfaceTypes";
 import { RootState } from "../../../../../features/store";
+import TaskArea from "./components/TaskArea";
 
 interface Props {
   activeChallenge: ChallengeType | undefined;
@@ -28,20 +29,25 @@ function Home({ activeChallenge, loading }: Props) {
         <div>
           <h1 className="text-3xl mb-[30px]">Active Challenge</h1>
           {activeChallenge ? (
-            <div>
+            <div className="mb-[20px]">
               <div>
                 <h2>Start Date: {activeChallenge.start_date}</h2>
                 <h2>
                   End Date: {calculateEndDate(activeChallenge.start_date)}
                 </h2>
               </div>
-              {/* The user's challenge info */}
-              <div>
-                <h1>Name: {currentUserChallengeInfo?.name}</h1>
-              </div>
             </div>
           ) : null}
-          <pre>{JSON.stringify(activeChallenge, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(activeChallenge, null, 2)}</pre> */}
+          {/* Main user section */}
+          <TaskArea user={currentUserChallengeInfo} />
+
+          {/* Other users */}
+          {activeChallenge?.users?.map((user: UserType) => {
+            if (user.id !== userInfo?.id) {
+              return <TaskArea user={user} />;
+            }
+          })}
         </div>
       )}
     </>
