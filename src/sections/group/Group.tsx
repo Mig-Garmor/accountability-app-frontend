@@ -29,7 +29,7 @@ const Group = () => {
     data: usersData,
     error: usersError,
     isLoading: usersLoading,
-    refetch: usersRefetch,
+    // refetch: usersRefetch,
   } = useUsers();
 
   //Fetch active challenge
@@ -37,7 +37,7 @@ const Group = () => {
     data: activeChallenge,
     // error: activeChallengeError,
     isLoading: activeChallengeLoading,
-    refetch: activeChallengeRefetch,
+    // refetch: activeChallengeRefetch,
   } = useActiveChallenge(groupId ? groupId : 0);
 
   const [componentLoaded, setComponentLoaded] = useState(false);
@@ -56,8 +56,6 @@ const Group = () => {
   useEffect(() => {
     if (componentLoaded) {
       groupRefetch();
-      usersRefetch();
-      activeChallengeRefetch();
     }
     setComponentLoaded(true);
   }, [refetchGroupData]);
@@ -75,7 +73,7 @@ const Group = () => {
           />
         );
       case "challenges":
-        return <Challenges group={group} />;
+        return <Challenges group={group} setActiveTab={setActiveTab} />;
       case "inviteUsers":
         return <InviteUsers users={usersData?.users} loading={usersLoading} />;
     }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { ChallengeType, GroupData } from "../../../interfaceTypes";
 import Challenge from "./Challenge";
 import IconButton from "../../../../../components/buttons/IconButton";
@@ -11,9 +11,10 @@ import {
 
 interface Props {
   group: GroupData | undefined;
+  setActiveTab: Dispatch<SetStateAction<"home" | "challenges" | "inviteUsers">>;
 }
 
-function Challenges({ group }: Props) {
+function Challenges({ group, setActiveTab }: Props) {
   const dispatch = useDispatch();
 
   return (
@@ -22,7 +23,11 @@ function Challenges({ group }: Props) {
       {/* <pre>{JSON.stringify(group, null, 2)}</pre> */}
       <div className="grid grid-cols-2 gap-4">
         {group?.challenges.map((challenge: ChallengeType, index: number) => (
-          <Challenge key={index} challenge={challenge} />
+          <Challenge
+            key={index}
+            challenge={challenge}
+            setActiveTab={setActiveTab}
+          />
         ))}
         <div className="flex min-w-[230px] items-center justify-center px-[10px] py-[10px]">
           <IconButton

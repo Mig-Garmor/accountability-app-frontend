@@ -56,3 +56,14 @@ export const inviteUser = async (groupId: number, targetUserId: number) => {
     return handleApiError(error);
   }
 };
+
+export const enterChallenge = async (challengeId: number) => {
+  try {
+    const response = await apiClient.post("/challenge/enter", {
+      challengeId: challengeId,
+    });
+    return handleApiResponse(response);
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
