@@ -15,8 +15,8 @@ function InviteUsers({ users, loading }: Props) {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        users?.map((user: UserType) => {
-          return <User user={user} />;
+        users?.map((user: UserType, index: number) => {
+          return <User key={index} user={user} />;
         })
       )}
     </div>

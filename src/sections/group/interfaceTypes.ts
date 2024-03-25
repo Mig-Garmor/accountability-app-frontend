@@ -2,6 +2,7 @@ export interface ChallengeType {
   id: number;
   group_id: number;
   start_date: string;
+  users?: UserType[];
 }
 
 export interface GroupData {

@@ -1,43 +1,50 @@
-import React from "react";
-import { ChallengeType, GroupData } from "../../../interfaceTypes";
-import Challenge from "./Challenge";
-import IconButton from "../../../../../components/buttons/IconButton";
-import { GoPlus } from "react-icons/go";
-import { useDispatch } from "react-redux";
-import {
-  storeCustomModalComponent,
-  toggleCustomModal,
-} from "../../../../../features/generalStore/generalSlice";
+import { useSelector } from "react-redux";
+import LoadingSpinner from "../../../../../components/LoadingSpinner";
+import { ChallengeType, UserType } from "../../../interfaceTypes";
+import { RootState } from "../../../../../features/store";
 
 interface Props {
-  group: GroupData | undefined;
+  activeChallenge: ChallengeType | undefined;
+  loading: boolean;
 }
 
-function Home({ group }: Props) {
-  const dispatch = useDispatch();
+function Home({ activeChallenge, loading }: Props) {
+  const { userInfo } = useSelector((state: RootState) => state.general);
+
+  const calculateEndDate = (startDate: string) => {
+    const date = new Date(startDate);
+    date.setDate(date.getDate() + 30);
+    return date.toISOString().split("T")[0];
+  };
+
+  const currentUserChallengeInfo: UserType | undefined =
+    activeChallenge?.users?.find((user: UserType) => user.id === userInfo?.id);
 
   return (
-    <div>
-      <h1 className="text-3xl mb-[30px]">Group Details</h1>
-      {/* Render your group details here */}
-      {/* <pre>{JSON.stringify(group, null, 2)}</pre> */}
-      <div className="grid grid-cols-2 gap-4">
-        {group?.challenges.map((challenge: ChallengeType) => (
-          <Challenge challenge={challenge} />
-        ))}
-        <div className="flex min-w-[230px] items-center justify-center px-[10px] py-[10px]">
-          <IconButton
-            Icon={<GoPlus />}
-            action={() => {
-              dispatch(storeCustomModalComponent("createNewChallenge"));
-              dispatch(toggleCustomModal());
-            }}
-            label="Create new Challenge"
-            showStyles
-          />
+    <>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <div>
+          <h1 className="text-3xl mb-[30px]">Active Challenge</h1>
+          {activeChallenge ? (
+            <div>
+              <div>
+                <h2>Start Date: {activeChallenge.start_date}</h2>
+                <h2>
+                  End Date: {calculateEndDate(activeChallenge.start_date)}
+                </h2>
+              </div>
+              {/* The user's challenge info */}
+              <div>
+                <h1>Name: {currentUserChallengeInfo?.name}</h1>
+              </div>
+            </div>
+          ) : null}
+          <pre>{JSON.stringify(activeChallenge, null, 2)}</pre>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

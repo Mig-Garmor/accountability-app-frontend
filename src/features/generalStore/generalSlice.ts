@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ModalData } from "./interfaceTypes";
+import { CurrentUser } from "../../types/interfaceTypes";
 // import {} from "./interfaceTypes";
 
 interface InitialStateObject {
@@ -8,6 +9,7 @@ interface InitialStateObject {
   modalOpen: boolean;
   customModalComponent: "createNewChallenge" | undefined;
   customModalOpen: boolean;
+  userInfo: CurrentUser | undefined;
 }
 
 const initialState: InitialStateObject = {
@@ -16,6 +18,7 @@ const initialState: InitialStateObject = {
   modalOpen: false,
   customModalComponent: undefined,
   customModalOpen: false,
+  userInfo: undefined,
 };
 
 const generalSlice = createSlice({
@@ -40,6 +43,9 @@ const generalSlice = createSlice({
     toggleCustomModal(state) {
       state.customModalOpen = !state.customModalOpen;
     },
+    storeUserInfo(state, action: PayloadAction<CurrentUser | undefined>) {
+      state.userInfo = action.payload;
+    },
   },
 });
 
@@ -49,5 +55,6 @@ export const {
   toggleModal,
   storeCustomModalComponent,
   toggleCustomModal,
+  storeUserInfo,
 } = generalSlice.actions;
 export default generalSlice.reducer;

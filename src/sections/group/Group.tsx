@@ -9,6 +9,7 @@ import Home from "./components/tabs/home/Home";
 import Challenges from "./components/tabs/challenges/Challenges";
 import InviteUsers from "./components/tabs/inviteUsers/InviteUsers";
 import useUsers from "./services/hooks/useUsers";
+import useActiveChallenge from "./services/hooks/useActiveChallenge";
 
 const Group = () => {
   const { groupId, refetchGroupData } = useSelector(
@@ -31,6 +32,14 @@ const Group = () => {
     refetch: usersRefetch,
   } = useUsers();
 
+  //Fetch active challenge
+  const {
+    data: activeChallenge,
+    // error: activeChallengeError,
+    isLoading: activeChallengeLoading,
+    refetch: activeChallengeRefetch,
+  } = useActiveChallenge(groupId ? groupId : 0);
+
   const [componentLoaded, setComponentLoaded] = useState(false);
 
   //Tab state
@@ -48,6 +57,7 @@ const Group = () => {
     if (componentLoaded) {
       groupRefetch();
       usersRefetch();
+      activeChallengeRefetch();
     }
     setComponentLoaded(true);
   }, [refetchGroupData]);
@@ -58,9 +68,14 @@ const Group = () => {
   const renderTabContent = () => {
     switch (activeTab) {
       case "home":
-        return <Home group={group} />;
+        return (
+          <Home
+            activeChallenge={activeChallenge}
+            loading={activeChallengeLoading}
+          />
+        );
       case "challenges":
-        return <Challenges />;
+        return <Challenges group={group} />;
       case "inviteUsers":
         return <InviteUsers users={usersData?.users} loading={usersLoading} />;
     }

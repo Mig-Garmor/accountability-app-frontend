@@ -4,12 +4,18 @@ import CustomButton from "../../../components/buttons/CustomButton";
 import { acceptInvite } from "../../services/apiRequests";
 import { APIResponse } from "../../../types/interfaceTypes";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { storeGroupId } from "../../../features/groupStore/groupSlice";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   message: MessageType | undefined;
 }
 
 function Message({ message }: Props) {
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
+
   const [loading, setLoading] = useState(false);
 
   const renderMessage = () => {
@@ -27,6 +33,8 @@ function Message({ message }: Props) {
                 console.log("RESPONSE: ", response);
                 if (response.success) {
                   toast.success("Invitation accepted");
+                  dispatch(storeGroupId(response.data.groupId));
+                  navigation("/group");
                 } else {
                   toast.error(response.message);
                 }

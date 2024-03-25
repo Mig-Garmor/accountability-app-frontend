@@ -11,6 +11,8 @@ import { storeGroupId } from "../../features/groupStore/groupSlice";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const { userInfo } = useSelector((state: RootState) => state.general);
+
   const { groupId } = useSelector((state: RootState) => state.group);
   //Here we can:
   // - Create a group
@@ -20,13 +22,14 @@ function Home() {
 
   useEffect(() => {
     const groupIdStorage = localStorage.getItem("groupId");
-    if (groupIdStorage) {
+    if (groupIdStorage && userInfo) {
       if (!groupId) {
         dispatch(storeGroupId(parseInt(groupIdStorage)));
       }
       navigation("/group");
     }
-  }, [groupId]);
+  }, [groupId, userInfo]);
+
   return (
     <div className="flex h-screen justify-center items-center">
       <IconButton
