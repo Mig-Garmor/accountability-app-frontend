@@ -2,16 +2,21 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { TaskFormData, TaskFormErrors } from "../../../../interfaceTypes";
 import TextInput from "../../../../../../components/inputs/TextInput";
 import CustomButton from "../../../../../../components/buttons/CustomButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleCustomModal } from "../../../../../../features/generalStore/generalSlice";
+import { createNewTask } from "../../../../services/apiRequests";
+import { RootState } from "../../../../../../features/store";
+import { toggleRefetchActiveChallengeData } from "../../../../../../features/groupStore/groupSlice";
 
 function CreateNewTask() {
   const dispatch = useDispatch();
+  const { challengeId } = useSelector((state: RootState) => state.group);
   const [formData, setFormData] = useState<TaskFormData>({
     name: "",
   });
 
   const [errors, setErrors] = useState<Partial<TaskFormErrors>>({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const resetInputs = () => {
@@ -60,12 +65,24 @@ function CreateNewTask() {
           customStyles="from-red-900 to-red-800"
         />
         <CustomButton
-          action={() => {
-            if (validateNewTask()) {
+          action={async () => {
+            if (validateNewTask() && challengeId) {
               console.log("POST request new task");
+              const taskData = {
+                name: formData.name,
+                challengeId: challengeId,
+              };
+              setLoading(true);
+              const response = await createNewTask(taskData);
+              setLoading(false);
+
+              console.log("Response: ", response);
+              dispatch(toggleCustomModal());
+              dispatch(toggleRefetchActiveChallengeData());
             }
           }}
           text={"Create task"}
+          loading={loading}
         />
       </div>
     </div>

@@ -1,5 +1,5 @@
 import useGroup from "./services/hooks/useGroup"; // Update the path accordingly
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../features/store";
 
 import { useEffect, useState } from "react";
@@ -10,9 +10,11 @@ import Challenges from "./components/tabs/challenges/Challenges";
 import InviteUsers from "./components/tabs/inviteUsers/InviteUsers";
 import useUsers from "./services/hooks/useUsers";
 import useActiveChallenge from "./services/hooks/useActiveChallenge";
+import { storeChallengeId } from "../../features/groupStore/groupSlice";
 
 const Group = () => {
-  const { groupId, refetchGroupData } = useSelector(
+  const dispatch = useDispatch();
+  const { groupId, refetchGroupData, refetchActiveChallengeData } = useSelector(
     (state: RootState) => state.group
   );
 
@@ -37,7 +39,7 @@ const Group = () => {
     data: activeChallenge,
     // error: activeChallengeError,
     isLoading: activeChallengeLoading,
-    // refetch: activeChallengeRefetch,
+    refetch: activeChallengeRefetch,
   } = useActiveChallenge(groupId ? groupId : 0);
 
   const [componentLoaded, setComponentLoaded] = useState(false);
@@ -59,6 +61,19 @@ const Group = () => {
     }
     setComponentLoaded(true);
   }, [refetchGroupData]);
+
+  useEffect(() => {
+    if (componentLoaded) {
+      activeChallengeRefetch();
+    }
+    setComponentLoaded(true);
+  }, [refetchActiveChallengeData]);
+
+  useEffect(() => {
+    if (activeChallenge) {
+      dispatch(storeChallengeId(activeChallenge.id));
+    }
+  }, [activeChallenge]);
 
   if (groupLoading || usersLoading) return <div>Loading...</div>;
   if (groupError || usersError) return <div>An error occurred</div>;

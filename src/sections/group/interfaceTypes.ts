@@ -10,9 +10,17 @@ export interface GroupData {
   challenges: ChallengeType[];
 }
 
+export interface Task {
+  id: 1;
+  name: "New task";
+  user_id: 2;
+  challenge_id: 1;
+}
+
 export interface UserType {
   id: number;
   name: string;
+  tasks: Task[];
 }
 
 export interface UsersData {

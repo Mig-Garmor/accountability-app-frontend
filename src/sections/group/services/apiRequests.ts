@@ -67,3 +67,15 @@ export const enterChallenge = async (challengeId: number) => {
     return handleApiError(error);
   }
 };
+
+export const createNewTask = async (taskData: {
+  name: string;
+  challengeId: number;
+}) => {
+  try {
+    const response = await apiClient.post("/tasks", taskData);
+    return handleApiResponse(response);
+  } catch (error) {
+    return handleApiError(error);
+  }
+};

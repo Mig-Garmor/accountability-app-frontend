@@ -1,6 +1,6 @@
 import React from "react";
 
-import { UserType } from "../../../../interfaceTypes";
+import { Task, UserType } from "../../../../interfaceTypes";
 import { GoPlus } from "react-icons/go";
 import IconButton from "../../../../../../components/buttons/IconButton";
 import { useDispatch } from "react-redux";
@@ -18,6 +18,11 @@ function TaskArea({ user }: Props) {
   return (
     <div className="mb-[10px]">
       <div>TaskArea for {user?.name}</div>
+      <div>
+        {user?.tasks.map((task: Task) => (
+          <p>{task.name}</p>
+        ))}
+      </div>
       <div>
         <IconButton
           Icon={<GoPlus />}
