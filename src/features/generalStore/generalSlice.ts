@@ -3,11 +3,13 @@ import { ModalData } from "./interfaceTypes";
 import { CurrentUser } from "../../types/interfaceTypes";
 // import {} from "./interfaceTypes";
 
+type CustomModalTypes = "createNewChallenge" | "createNewTask" | undefined;
+
 interface InitialStateObject {
   accessToken: string | undefined;
   modalData: ModalData | undefined;
   modalOpen: boolean;
-  customModalComponent: "createNewChallenge" | undefined;
+  customModalComponent: CustomModalTypes;
   customModalOpen: boolean;
   userInfo: CurrentUser | undefined;
 }
@@ -34,10 +36,7 @@ const generalSlice = createSlice({
     toggleModal(state) {
       state.modalOpen = !state.modalOpen;
     },
-    storeCustomModalComponent(
-      state,
-      action: PayloadAction<"createNewChallenge" | undefined>
-    ) {
+    storeCustomModalComponent(state, action: PayloadAction<CustomModalTypes>) {
       state.customModalComponent = action.payload;
     },
     toggleCustomModal(state) {

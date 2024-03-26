@@ -20,3 +20,11 @@ export interface UsersData {
 }
 
 export type TabOptions = "home" | "challenges" | "inviteUsers";
+
+export interface TaskFormData {
+  name: string;
+}
+
+export interface TaskFormErrors {
+  name: boolean;
+}

@@ -3,6 +3,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../features/store";
 import CreateChallengeModal from "../../sections/home/components/CreateChallengeModal";
+import CreateNewTask from "../../sections/group/components/tabs/challenges/tasks/CreateNewTask";
 
 const CustomModal = () => {
   const { customModalOpen, customModalComponent } = useSelector(
@@ -16,6 +17,9 @@ const CustomModal = () => {
     switch (customModalComponent) {
       case "createNewChallenge":
         return <CreateChallengeModal />;
+
+      case "createNewTask":
+        return <CreateNewTask />;
       default:
         return null;
     }
