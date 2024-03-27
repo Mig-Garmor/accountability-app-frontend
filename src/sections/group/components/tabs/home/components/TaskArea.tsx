@@ -21,11 +21,16 @@ function TaskArea({ user }: Props) {
   };
   return (
     <div className="mb-[10px] min-w-0">
-      <div>TaskArea for {user?.name}</div>
-      <div className="overflow-hidden min-w-0">
-        <TasksTable tasks={tasksArray()} />
-      </div>
-      <div>
+      <div className="mb-[20px]">Tasks: {user?.name}</div>
+      {user?.tasks && user?.tasks?.length > 0 ? (
+        <div className="overflow-hidden min-w-0">
+          <TasksTable tasks={tasksArray()} />
+        </div>
+      ) : (
+        <div>No tasks added yet</div>
+      )}
+
+      <div className="mt-[10px]">
         <IconButton
           Icon={<GoPlus />}
           action={() => {
