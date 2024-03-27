@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Task, UserType } from "../../../../interfaceTypes";
 import { GoPlus } from "react-icons/go";
 import IconButton from "../../../../../../components/buttons/IconButton";
@@ -12,9 +10,10 @@ import TasksTable from "./TasksTable";
 
 interface Props {
   user: UserType | undefined;
+  disabled?: boolean;
 }
 
-function TaskArea({ user }: Props) {
+function TaskArea({ user, disabled }: Props) {
   const dispatch = useDispatch();
   const tasksArray = () => {
     return user?.tasks.map((task: Task) => task);
@@ -24,23 +23,24 @@ function TaskArea({ user }: Props) {
       <div className="mb-[20px]">Tasks: {user?.name}</div>
       {user?.tasks && user?.tasks?.length > 0 ? (
         <div className="overflow-hidden min-w-0">
-          <TasksTable tasks={tasksArray()} />
+          <TasksTable tasks={tasksArray()} disabled={disabled} />
         </div>
       ) : (
         <div>No tasks added yet</div>
       )}
-
-      <div className="mt-[10px]">
-        <IconButton
-          Icon={<GoPlus />}
-          action={() => {
-            dispatch(storeCustomModalComponent("createNewTask"));
-            dispatch(toggleCustomModal());
-          }}
-          label="Create new task"
-          showStyles
-        />
-      </div>
+      {disabled ? null : (
+        <div className="mt-[10px]">
+          <IconButton
+            Icon={<GoPlus />}
+            action={() => {
+              dispatch(storeCustomModalComponent("createNewTask"));
+              dispatch(toggleCustomModal());
+            }}
+            label="Create new task"
+            showStyles
+          />
+        </div>
+      )}
     </div>
   );
 }

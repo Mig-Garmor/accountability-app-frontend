@@ -1,7 +1,11 @@
-import React from "react";
-import { TasksTableProps } from "../../../../interfaceTypes";
+import { Task } from "../../../../interfaceTypes";
 
-const TasksTable: React.FC<TasksTableProps> = ({ tasks }) => {
+interface Props {
+  tasks: Task[] | undefined;
+  disabled?: boolean;
+}
+
+const TasksTable = ({ tasks, disabled }: Props) => {
   // No changes here, but remember you're working with 4 weeks
   const weeks = Array.from({ length: 4 }, (_, i) => `Week ${i + 1}`);
   const daysPerWeek = 7;
@@ -81,6 +85,7 @@ const TasksTable: React.FC<TasksTableProps> = ({ tasks }) => {
                     type="checkbox"
                     id={`checkbox-${rowIndex}-${columnIndex + 1}`}
                     name={`checkbox-${rowIndex}-${columnIndex + 1}`}
+                    disabled={disabled}
                   />
                 </td>
               ))}

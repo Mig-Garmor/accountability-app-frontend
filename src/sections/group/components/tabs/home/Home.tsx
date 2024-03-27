@@ -45,7 +45,7 @@ function Home({ activeChallenge, loading }: Props) {
           {/* Other users */}
           {activeChallenge?.users?.map((user: UserType) => {
             if (user.id !== userInfo?.id) {
-              return <TaskArea user={user} />;
+              return <TaskArea user={user} disabled />;
             }
           })}
         </div>
