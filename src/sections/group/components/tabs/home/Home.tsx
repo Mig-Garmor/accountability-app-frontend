@@ -26,7 +26,7 @@ function Home({ activeChallenge, loading }: Props) {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div>
+        <div className="min-w-0">
           <h1 className="text-3xl mb-[30px]">Active Challenge</h1>
           {activeChallenge ? (
             <div className="mb-[20px]">

@@ -11,10 +11,10 @@ export interface GroupData {
 }
 
 export interface Task {
-  id: 1;
-  name: "New task";
-  user_id: 2;
-  challenge_id: 1;
+  id: number;
+  name: string;
+  user_id: number;
+  challenge_id: number;
 }
 
 export interface UserType {
@@ -35,4 +35,8 @@ export interface TaskFormData {
 
 export interface TaskFormErrors {
   name: boolean;
+}
+
+export interface TasksTableProps {
+  tasks: Task[] | undefined;
 }

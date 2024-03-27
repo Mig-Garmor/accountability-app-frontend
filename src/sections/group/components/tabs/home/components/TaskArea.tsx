@@ -8,6 +8,7 @@ import {
   storeCustomModalComponent,
   toggleCustomModal,
 } from "../../../../../../features/generalStore/generalSlice";
+import TasksTable from "./TasksTable";
 
 interface Props {
   user: UserType | undefined;
@@ -15,13 +16,14 @@ interface Props {
 
 function TaskArea({ user }: Props) {
   const dispatch = useDispatch();
+  const tasksArray = () => {
+    return user?.tasks.map((task: Task) => task);
+  };
   return (
-    <div className="mb-[10px]">
+    <div className="mb-[10px] min-w-0">
       <div>TaskArea for {user?.name}</div>
-      <div>
-        {user?.tasks.map((task: Task) => (
-          <p>{task.name}</p>
-        ))}
+      <div className="overflow-hidden min-w-0">
+        <TasksTable tasks={tasksArray()} />
       </div>
       <div>
         <IconButton
