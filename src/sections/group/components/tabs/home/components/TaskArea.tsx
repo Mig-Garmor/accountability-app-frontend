@@ -7,6 +7,7 @@ import {
   toggleCustomModal,
 } from "../../../../../../features/generalStore/generalSlice";
 import TasksTable from "./TasksTable";
+import { useEffect, useState } from "react";
 
 interface Props {
   user: UserType | undefined;
@@ -14,16 +15,18 @@ interface Props {
 }
 
 function TaskArea({ user, disabled }: Props) {
+  const [tasksArray, setTasksArray] = useState<Task[] | undefined>(undefined);
+  useEffect(() => {
+    setTasksArray(user?.tasks.map((task: Task) => task));
+  }, [user?.tasks]);
   const dispatch = useDispatch();
-  const tasksArray = () => {
-    return user?.tasks.map((task: Task) => task);
-  };
+
   return (
     <div className="mb-[10px] min-w-0">
       <div className="mb-[20px]">Tasks: {user?.name}</div>
       {user?.tasks && user?.tasks?.length > 0 ? (
         <div className="overflow-hidden min-w-0">
-          <TasksTable tasks={tasksArray()} disabled={disabled} />
+          <TasksTable tasks={tasksArray} isDisabled={disabled} />
         </div>
       ) : (
         <div>No tasks added yet</div>

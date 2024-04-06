@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ChallengeType } from "../../sections/group/interfaceTypes";
 // import {} from "./interfaceTypes";
 
 interface InitialStateObject {
@@ -6,6 +7,7 @@ interface InitialStateObject {
   refetchGroupData: boolean;
   //Challenges
   challengeId: number | undefined;
+  activeChallengeStore: ChallengeType | undefined;
   refetchActiveChallengeData: boolean;
 }
 
@@ -14,6 +16,7 @@ const initialState: InitialStateObject = {
   refetchGroupData: false,
   //Challenges
   challengeId: undefined,
+  activeChallengeStore: undefined,
   refetchActiveChallengeData: false,
 };
 
@@ -31,6 +34,12 @@ const generalSlice = createSlice({
     storeChallengeId(state, action: PayloadAction<number | undefined>) {
       state.challengeId = action.payload;
     },
+    storeActiveChallenge(
+      state,
+      action: PayloadAction<ChallengeType | undefined>
+    ) {
+      state.activeChallengeStore = action.payload;
+    },
     toggleRefetchActiveChallengeData(state) {
       state.refetchActiveChallengeData = !state.refetchActiveChallengeData;
     },
@@ -42,6 +51,7 @@ export const {
   toggleRefetchGroupData,
   //Challenges
   storeChallengeId,
+  storeActiveChallenge,
   toggleRefetchActiveChallengeData,
 } = generalSlice.actions;
 export default generalSlice.reducer;

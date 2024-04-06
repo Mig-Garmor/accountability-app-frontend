@@ -79,3 +79,15 @@ export const createNewTask = async (taskData: {
     return handleApiError(error);
   }
 };
+
+export const sendCompletedTask = async (messageData: {
+  task_id: number;
+  day: number;
+}) => {
+  try {
+    const response = await apiClient.post("/completedTask", messageData);
+    return handleApiResponse(response);
+  } catch (error) {
+    return handleApiError(error);
+  }
+};

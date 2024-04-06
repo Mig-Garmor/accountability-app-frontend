@@ -27,6 +27,7 @@ function Layout() {
   }, [currentUser]);
 
   useEffect(() => {
+    console.log("starting layout");
     const groupIdStorage = localStorage.getItem("groupId");
 
     if (groupIdStorage) {

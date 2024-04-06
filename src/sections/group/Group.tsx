@@ -10,7 +10,10 @@ import Challenges from "./components/tabs/challenges/Challenges";
 import InviteUsers from "./components/tabs/inviteUsers/InviteUsers";
 import useUsers from "./services/hooks/useUsers";
 import useActiveChallenge from "./services/hooks/useActiveChallenge";
-import { storeChallengeId } from "../../features/groupStore/groupSlice";
+import {
+  storeActiveChallenge,
+  storeChallengeId,
+} from "../../features/groupStore/groupSlice";
 
 const Group = () => {
   const dispatch = useDispatch();
@@ -72,6 +75,7 @@ const Group = () => {
   useEffect(() => {
     if (activeChallenge) {
       dispatch(storeChallengeId(activeChallenge.id));
+      dispatch(storeActiveChallenge(activeChallenge));
     }
   }, [activeChallenge]);
 
@@ -81,12 +85,7 @@ const Group = () => {
   const renderTabContent = () => {
     switch (activeTab) {
       case "home":
-        return (
-          <Home
-            activeChallenge={activeChallenge}
-            loading={activeChallengeLoading}
-          />
-        );
+        return <Home loading={activeChallengeLoading} />;
       case "challenges":
         return <Challenges group={group} setActiveTab={setActiveTab} />;
       case "inviteUsers":
