@@ -78,6 +78,8 @@ function CreateNewTask() {
 
               console.log("Response: ", response);
               dispatch(toggleCustomModal());
+              //Do we need this or can we just update state on FE
+              //This is a heavy call
               dispatch(toggleRefetchActiveChallengeData());
             }
           }}

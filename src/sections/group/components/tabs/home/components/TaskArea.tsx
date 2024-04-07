@@ -18,7 +18,7 @@ function TaskArea({ user, disabled }: Props) {
   const [tasksArray, setTasksArray] = useState<Task[] | undefined>(undefined);
   useEffect(() => {
     setTasksArray(user?.tasks.map((task: Task) => task));
-  }, [user?.tasks]);
+  }, [user]);
   const dispatch = useDispatch();
 
   return (
