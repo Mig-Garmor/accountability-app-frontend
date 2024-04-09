@@ -52,11 +52,27 @@ const Group = () => {
     "home" | "challenges" | "inviteUsers"
   >("home");
 
-  const tabs: { name: string; tab: TabOptions }[] = [
-    { name: "Home", tab: "home" },
-    { name: "Challenges", tab: "challenges" },
-    { name: "Invite Users", tab: "inviteUsers" },
-  ];
+  const [tabsArray, setTabsArray] = useState<
+    { name: string; tab: TabOptions }[] | undefined
+  >(undefined);
+
+  useEffect(() => {
+    let tempTabsArray: { name: string; tab: TabOptions }[] = [
+      { name: "Home", tab: "home" },
+    ]; // Default to showing at least the Home tab
+
+    if (activeChallenge?.userPermission === "ADMIN") {
+      // If the user is an admin, add additional tabs
+      tempTabsArray = [
+        ...tempTabsArray,
+        { name: "Challenges", tab: "challenges" },
+        { name: "Invite Users", tab: "inviteUsers" },
+      ];
+    }
+
+    // Update the state with the appropriate tabs for the user's permission
+    setTabsArray(tempTabsArray);
+  }, [activeChallenge?.userPermission]);
 
   useEffect(() => {
     if (componentLoaded) {
@@ -95,12 +111,22 @@ const Group = () => {
 
   return (
     <div className="flex flex-col h-full w-full pt-[10px]">
-      <div className="px-[20px]">
-        <Tabs setActiveTab={setActiveTab} activeTab={activeTab} tabs={tabs} />
-      </div>
+      {tabsArray && tabsArray?.length > 1 && (
+        <div className="px-[20px]">
+          <Tabs
+            setActiveTab={setActiveTab}
+            activeTab={activeTab}
+            tabs={tabsArray}
+          />
+        </div>
+      )}
 
       {/* Tab content */}
-      <div className="flex w-full h-full border-t border-black px-[20px] py-[10px]">
+      <div
+        className={`flex w-full h-full px-[20px] py-[10px] ${
+          tabsArray && tabsArray?.length > 1 && "border-t border-black"
+        }`}
+      >
         {renderTabContent()}
       </div>
     </div>

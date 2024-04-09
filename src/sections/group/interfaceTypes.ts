@@ -3,6 +3,7 @@ export interface ChallengeType {
   group_id: number;
   start_date: string;
   users?: UserType[];
+  userPermission?: "ADMIN" | "USER";
 }
 
 export interface GroupData {
