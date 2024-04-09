@@ -1,12 +1,13 @@
-import React from "react";
+import React, { ElementType } from "react";
 
 // Define prop types
 interface Props {
-  Icon: React.ReactNode;
+  Icon: ElementType;
   action: () => void;
   label?: string;
   showStyles?: boolean;
-  customContainerStyles?;
+  customContainerStyles?: string;
+  customIconStyles?: string;
 }
 
 // Child component
@@ -16,6 +17,7 @@ const IconButton = ({
   label,
   showStyles,
   customContainerStyles,
+  customIconStyles,
 }: Props) => {
   return (
     <div className={`${customContainerStyles} cursor-pointer`}>
@@ -27,7 +29,7 @@ const IconButton = ({
           action();
         }}
       >
-        {Icon}
+        <Icon className={customIconStyles} />
         {label && label}
       </button>
     </div>

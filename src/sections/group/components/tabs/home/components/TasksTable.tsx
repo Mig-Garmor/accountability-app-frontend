@@ -1,13 +1,33 @@
 import { useEffect, useState } from "react";
-import { CompletedTask, Task } from "../../../../interfaceTypes";
-import { sendCompletedTask } from "../../../../services/apiRequests";
+import { ChallengeType, CompletedTask, Task } from "../../../../interfaceTypes";
+import {
+  deleteTask,
+  // deleteTask,
+  sendCompletedTask,
+} from "../../../../services/apiRequests";
+
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../../../features/store";
+
+import { RiDeleteBin6Line } from "react-icons/ri";
+
+import IconButton from "../../../../../../components/buttons/IconButton";
+import { storeActiveChallenge } from "../../../../../../features/groupStore/groupSlice";
+import { toast } from "react-toastify";
 
 interface Props {
   tasks: Task[] | undefined;
   isDisabled?: boolean;
+  userId: number;
 }
 
-const TasksTable = ({ tasks, isDisabled }: Props) => {
+const TasksTable = ({ tasks, isDisabled, userId }: Props) => {
+  const dispatch = useDispatch();
+
+  const { activeChallengeStore } = useSelector(
+    (state: RootState) => state.group
+  );
+
   const [checkboxStates, setCheckboxStates] = useState<{
     [key: string]: boolean;
   }>({});
@@ -36,6 +56,29 @@ const TasksTable = ({ tasks, isDisabled }: Props) => {
   // No changes here, but remember you're working with 4 weeks
   const weeks = Array.from({ length: 4 }, (_, i) => `Week ${i + 1}`);
   const daysPerWeek = 7;
+
+  const removeTaskFromActiveChallenge = (taskToRemove: { id: number }) => {
+    if (activeChallengeStore && activeChallengeStore.users) {
+      // Clone the activeChallengeStore object deeply
+      const tempActiveChallenge: ChallengeType = {
+        ...activeChallengeStore,
+        users: activeChallengeStore.users.map((user) => {
+          // Only modify the user object that matches userId
+          if (user.id === userId) {
+            return {
+              ...user,
+              // Recreate the tasks array without the task to remove
+              tasks: user.tasks.filter((task) => task.id !== taskToRemove.id),
+            };
+          }
+          // Return other users unmodified
+          return user;
+        }),
+      };
+
+      dispatch(storeActiveChallenge(tempActiveChallenge));
+    }
+  };
 
   return (
     <div className="border border-black w-[100%] overflow-x-auto relative">
@@ -96,7 +139,7 @@ const TasksTable = ({ tasks, isDisabled }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {tasks?.map((task, rowIndex) => (
+          {tasks?.map((task: { id: number; name: string }, rowIndex) => (
             <tr key={task.id}>
               <td
                 className="border"
@@ -107,7 +150,28 @@ const TasksTable = ({ tasks, isDisabled }: Props) => {
                   zIndex: 1,
                 }}
               >
-                {task.name}
+                <div className="flex justify-start items-center gap-[10px] px-[10px]">
+                  <p className="break-all">{task.name}</p>
+                  {isDisabled ?? (
+                    <IconButton
+                      Icon={RiDeleteBin6Line}
+                      action={async () => {
+                        console.log(`Delete task: `, task.name);
+                        const response = await deleteTask(task.id);
+                        console.log("RESPONSE delete task: ", response);
+                        if (response.success) {
+                          console.log("DELETE: ", response);
+                          //Remove task from activeChallenge
+                          removeTaskFromActiveChallenge(task);
+                          toast.success("Task successfully deleted");
+                        } else {
+                          toast.error(response.message);
+                        }
+                      }}
+                      customIconStyles="hover:text-red-600"
+                    />
+                  )}
+                </div>
               </td>
               {Array.from({ length: 28 }, (_, columnIndex) => (
                 <td key={columnIndex} className="border text-center">

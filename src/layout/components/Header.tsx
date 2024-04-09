@@ -24,16 +24,13 @@ function Header() {
       <div className="flex">
         <div className="relative">
           <IconButton
-            Icon={
-              <MdEmail
-                color="white"
-                style={{ marginRight: 20, cursor: "pointer" }}
-              />
-            }
+            Icon={MdEmail}
             action={() => {
               console.log("Icon clicked");
               setShowMessageModal((prev) => !prev);
             }}
+            customContainerStyles={"mr-[20px] cursor-pointer"}
+            customIconStyles={"text-white"}
           />
           {showMessageModal ? (
             <MessagesModal
@@ -45,12 +42,7 @@ function Header() {
         </div>
 
         <IconButton
-          Icon={
-            <MdLogout
-              color="white"
-              style={{ marginRight: 20, cursor: "pointer" }}
-            />
-          }
+          Icon={MdLogout}
           action={async () => {
             console.log("Logout Icon clicked");
             const response = await logoutUser();
@@ -60,6 +52,8 @@ function Header() {
               dispatch(storeAccessToken(undefined));
             }
           }}
+          customContainerStyles={"mr-[20px] cursor-pointer"}
+          customIconStyles={"text-white"}
         />
       </div>
     </div>

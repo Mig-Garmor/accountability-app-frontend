@@ -33,7 +33,7 @@ function Home() {
   return (
     <div className="flex h-screen justify-center items-center">
       <IconButton
-        Icon={<GoPlus />}
+        Icon={GoPlus}
         action={() => {
           dispatch(storeModalData({ name: "createGroup", type: "confirm" }));
           dispatch(toggleModal());

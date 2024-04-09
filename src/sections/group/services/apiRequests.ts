@@ -91,3 +91,12 @@ export const sendCompletedTask = async (messageData: {
     return handleApiError(error);
   }
 };
+
+export const deleteTask = async (taskId: number) => {
+  try {
+    const response = await apiClient.delete(`/tasks/${taskId}`);
+    return handleApiResponse(response);
+  } catch (error) {
+    return handleApiError(error);
+  }
+};

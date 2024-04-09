@@ -26,7 +26,11 @@ function TaskArea({ user, disabled }: Props) {
       <div className="mb-[20px]">Tasks: {user?.name}</div>
       {user?.tasks && user?.tasks?.length > 0 ? (
         <div className="overflow-hidden min-w-0">
-          <TasksTable tasks={tasksArray} isDisabled={disabled} />
+          <TasksTable
+            tasks={tasksArray}
+            isDisabled={disabled}
+            userId={user.id}
+          />
         </div>
       ) : (
         <div>No tasks added yet</div>
@@ -34,7 +38,7 @@ function TaskArea({ user, disabled }: Props) {
       {disabled ? null : (
         <div className="mt-[10px]">
           <IconButton
-            Icon={<GoPlus />}
+            Icon={GoPlus}
             action={() => {
               dispatch(storeCustomModalComponent("createNewTask"));
               dispatch(toggleCustomModal());

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { ChallengeType, GroupData } from "../../../interfaceTypes";
 import Challenge from "./Challenge";
 import IconButton from "../../../../../components/buttons/IconButton";
@@ -31,7 +31,7 @@ function Challenges({ group, setActiveTab }: Props) {
         ))}
         <div className="flex min-w-[230px] items-center justify-center px-[10px] py-[10px]">
           <IconButton
-            Icon={<GoPlus />}
+            Icon={GoPlus}
             action={() => {
               dispatch(storeCustomModalComponent("createNewChallenge"));
               dispatch(toggleCustomModal());
