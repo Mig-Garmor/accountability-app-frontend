@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingSpinner from "../../../../../components/LoadingSpinner";
 import {
@@ -5,10 +6,17 @@ import {
   CompletedTask,
   UserType,
 } from "../../../interfaceTypes";
-import { RootState } from "../../../../../features/store";
-import TaskArea from "./components/TaskArea";
-import { useEffect, useRef } from "react";
+
 import { storeActiveChallenge } from "../../../../../features/groupStore/groupSlice";
+import { RootState } from "../../../../../features/store";
+
+import { IoSettingsSharp } from "react-icons/io5";
+
+import { leaveGroup } from "./utils/actionButtonProps";
+
+import TaskArea from "./components/TaskArea";
+import IconButton from "../../../../../components/buttons/IconButton";
+import ActionButtonsPopup from "../../../../../components/popups/ActionButtonsPopup";
 
 interface Props {
   loading: boolean;
@@ -24,6 +32,10 @@ function Home({ loading }: Props) {
 
   // Ref to hold the latest value
   const activeChallengeStoreRef = useRef(activeChallengeStore);
+
+  const [isActionButtonsVisible, setIsActionButtonsVisible] = useState(false);
+  const [isSettingsButtonDisabled, setIsSettingsButtonDisabled] =
+    useState(false);
 
   const calculateEndDate = (startDate: string) => {
     const date = new Date(startDate);
@@ -126,7 +138,25 @@ function Home({ loading }: Props) {
         <LoadingSpinner />
       ) : (
         <div className="min-w-0">
-          <h1 className="text-3xl mb-[30px]">Active Challenge</h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl mb-[30px]">Active Challenge</h1>
+            <div className="flex relative">
+              <IconButton
+                Icon={IoSettingsSharp}
+                size={20}
+                action={() => {
+                  if (!isSettingsButtonDisabled)
+                    setIsActionButtonsVisible((prev) => !prev);
+                }}
+              />
+              <ActionButtonsPopup
+                isVisible={isActionButtonsVisible}
+                setIsVisible={setIsActionButtonsVisible}
+                setDisableExternalButton={setIsSettingsButtonDisabled}
+                actionButtons={[leaveGroup]}
+              />
+            </div>
+          </div>
           {activeChallengeStore ? (
             <div className="mb-[20px]">
               <div>
