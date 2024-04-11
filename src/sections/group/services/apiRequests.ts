@@ -100,3 +100,19 @@ export const deleteTask = async (taskId: number) => {
     return handleApiError(error);
   }
 };
+
+export const removeUserFromGroup = async (
+  userId: number | undefined,
+  groupId: number | undefined
+) => {
+  try {
+    if (userId && groupId) {
+      const response = await apiClient.delete(
+        `/group/${groupId}/user/${userId}`
+      );
+      return handleApiResponse(response);
+    }
+  } catch (error) {
+    return handleApiError(error);
+  }
+};

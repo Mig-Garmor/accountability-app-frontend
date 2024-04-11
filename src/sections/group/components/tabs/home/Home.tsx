@@ -17,6 +17,7 @@ import { leaveGroup } from "./utils/actionButtonProps";
 import TaskArea from "./components/TaskArea";
 import IconButton from "../../../../../components/buttons/IconButton";
 import ActionButtonsPopup from "../../../../../components/popups/ActionButtonsPopup";
+import { removeUserFromGroup } from "../../../services/apiRequests";
 
 interface Props {
   loading: boolean;
@@ -137,7 +138,7 @@ function Home({ loading }: Props) {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="min-w-0">
+        <div className="w-full min-w-0">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl mb-[30px]">Active Challenge</h1>
             <div className="flex relative">
@@ -153,7 +154,21 @@ function Home({ loading }: Props) {
                 isVisible={isActionButtonsVisible}
                 setIsVisible={setIsActionButtonsVisible}
                 setDisableExternalButton={setIsSettingsButtonDisabled}
-                actionButtons={[leaveGroup]}
+                actionButtons={[
+                  {
+                    ...leaveGroup,
+                    action: async () => {
+                      const response = await removeUserFromGroup(
+                        userInfo?.id,
+                        activeChallengeStore?.group_id
+                      );
+                      console.log(
+                        "RESPONSE remove user from group: ",
+                        response
+                      );
+                    },
+                  },
+                ]}
               />
             </div>
           </div>
