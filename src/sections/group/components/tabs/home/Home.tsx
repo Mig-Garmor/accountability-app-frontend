@@ -160,7 +160,7 @@ function Home({ loading }: Props) {
                     action: async () => {
                       const response = await removeUserFromGroup(
                         userInfo?.id,
-                        activeChallengeStore?.group_id
+                        1
                       );
                       console.log(
                         "RESPONSE remove user from group: ",

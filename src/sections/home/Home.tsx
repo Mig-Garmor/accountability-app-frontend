@@ -10,6 +10,9 @@ import { RootState } from "../../features/store";
 import { useEffect } from "react";
 import { storeGroupId } from "../../features/groupStore/groupSlice";
 import { useNavigate } from "react-router-dom";
+import useGroups from "./services/hooks/useGroups";
+import { GroupBasic } from "./utils/interfaceTypes";
+import BasicGroup from "./components/BasicGroup";
 
 function Home() {
   const { userInfo } = useSelector((state: RootState) => state.general);
@@ -20,6 +23,12 @@ function Home() {
   // - Join a group
   const dispatch = useDispatch();
   const navigation = useNavigate();
+
+  const { data: groups } = useGroups();
+
+  useEffect(() => {
+    console.log("Groups Data: ", groups?.data);
+  }, [groups]);
 
   useEffect(() => {
     const groupIdStorage = localStorage.getItem("groupId");
@@ -32,7 +41,10 @@ function Home() {
   }, [groupId, userInfo]);
 
   return (
-    <div className="flex h-screen justify-center items-center">
+    <div className="flex h-full justify-center items-center flex-wrap border gap-[10px]">
+      {groups?.data?.map((group: GroupBasic) => {
+        return <BasicGroup key={group.groupId} group={group} />;
+      })}
       <IconButton
         Icon={GoPlus}
         action={() => {

@@ -56,6 +56,8 @@ function Login() {
   useEffect(() => {
     if (accessToken) {
       navigation("/");
+    } else if (!accessToken) {
+      localStorage.removeItem("groupId");
     }
   }, [accessToken]);
   //- Navigate to Main Page
