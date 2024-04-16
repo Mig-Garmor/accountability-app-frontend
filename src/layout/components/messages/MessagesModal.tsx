@@ -25,7 +25,9 @@ function MessagesModal({ messages, error, loading }: Props) {
           return <Message message={message} />;
         })
       ) : (
-        <div>No messages to show</div>
+        <div className="flex justify-center items-center text-gray-200 p-[10px]">
+          No messages to show
+        </div>
       )}
     </div>
   );
