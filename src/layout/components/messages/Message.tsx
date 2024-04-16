@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { storeGroupId } from "../../../features/groupStore/groupSlice";
 import { useNavigate } from "react-router-dom";
+import { acceptJoinRequest } from "../../../sections/home/services/apiRequests";
+import { setRefetchMessages } from "../../../features/messagesSlice/messagesSlice";
 
 interface Props {
   message: MessageType | undefined;
@@ -39,9 +41,37 @@ function Message({ message }: Props) {
                   toast.error(response.message);
                 }
                 setLoading(false);
+                dispatch(setRefetchMessages(true));
               }}
               text={"Accept"}
-              customStyles="w-[50%] h-[20px] py-[15px] text-[14px]"
+              customStyles="w-fit px-[20px] text-[14px]"
+              loading={loading}
+            />
+          </div>
+        );
+      case "JOIN":
+        return (
+          <div className="">
+            <p className="mb-[5px] text-center text-[14px]">
+              {message.content}
+            </p>
+            <CustomButton
+              action={async () => {
+                setLoading(true);
+                const response = await acceptJoinRequest(message.id);
+                console.log("Response: ", response);
+                if (response.success) {
+                  toast.success("Invitation accepted");
+                  dispatch(storeGroupId(response.data.groupId));
+                  navigation("/group");
+                } else {
+                  toast.error(response.message);
+                }
+                setLoading(false);
+                dispatch(setRefetchMessages(true));
+              }}
+              text={"Include"}
+              customStyles="w-fit px-[20px] text-[14px]"
               loading={loading}
             />
           </div>

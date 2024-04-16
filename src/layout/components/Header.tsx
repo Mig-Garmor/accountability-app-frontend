@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdLogout, MdEmail } from "react-icons/md";
 import IconButton from "../../components/buttons/IconButton";
 import { logoutUser } from "../services/apiRequests";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../features/store";
+
 import { storeAccessToken } from "../../features/generalStore/generalSlice";
+
 import MessagesModal from "./messages/MessagesModal";
 import useMessages from "../services/hooks/useMessages";
+import { setRefetchMessages } from "../../features/messagesSlice/messagesSlice";
 
 function Header() {
   const dispatch = useDispatch();
+
+  const { refetchMessages } = useSelector((state: RootState) => state.messages);
+
   const [showMessageModal, setShowMessageModal] = useState(false);
 
   //Fetch messages
@@ -16,7 +23,15 @@ function Header() {
     data: messages,
     error: messagesError,
     isLoading: messagesLoading,
+    refetch,
   } = useMessages();
+
+  useEffect(() => {
+    if (refetchMessages) {
+      refetch();
+      dispatch(setRefetchMessages(false));
+    }
+  }, [refetchMessages]);
 
   return (
     <div className="flex bg-black w-full h-[30px] items-center justify-between px-[24px]">

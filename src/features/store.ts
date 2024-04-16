@@ -1,16 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import generalSlice from "./generalStore/generalSlice";
 import groupSlice from "./groupStore/groupSlice";
-
-// import departmentsStore from "./departmentsStore/departmentsSlice";
-// import catalogSlice from "./catalogStore/catalogSlice";
+import messagesSlice from "./messagesSlice/messagesSlice";
 
 export const store = configureStore({
   reducer: {
-    // departments: departmentsStore,
-    // catalog: catalogSlice,
     general: generalSlice,
     group: groupSlice,
+    messages: messagesSlice,
   },
 });
 

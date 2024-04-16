@@ -22,3 +22,27 @@ export const createChallenge = async (groupId: number, startDate: string) => {
     throw error;
   }
 };
+
+export const requestToJoinGroup = async (groupId: number) => {
+  try {
+    const response = await apiClient.post("/messages/join", {
+      groupId: groupId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("There was an error!", error);
+    throw error;
+  }
+};
+
+export const acceptJoinRequest = async (id: number) => {
+  try {
+    const response = await apiClient.post("/messages/join/accept", {
+      messageId: id,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("There was an error!", error);
+    throw error;
+  }
+};

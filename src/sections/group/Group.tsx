@@ -58,21 +58,29 @@ const Group = () => {
 
   useEffect(() => {
     let tempTabsArray: { name: string; tab: TabOptions }[] = [
-      { name: "Home", tab: "home" },
+      { name: "Challenges", tab: "challenges" },
     ]; // Default to showing at least the Home tab
 
+    if (activeChallenge) {
+      console.log("ACTIVE CHALLENGE: ", activeChallenge);
+      tempTabsArray = [...tempTabsArray, { name: "Home", tab: "home" }];
+    }
     if (activeChallenge?.userPermission === "ADMIN") {
       // If the user is an admin, add additional tabs
       tempTabsArray = [
         ...tempTabsArray,
-        { name: "Challenges", tab: "challenges" },
+
         { name: "Invite Users", tab: "inviteUsers" },
       ];
     }
 
+    if (!activeChallenge) {
+      setActiveTab("challenges");
+    }
+
     // Update the state with the appropriate tabs for the user's permission
     setTabsArray(tempTabsArray);
-  }, [activeChallenge?.userPermission]);
+  }, [activeChallenge]);
 
   useEffect(() => {
     if (componentLoaded) {

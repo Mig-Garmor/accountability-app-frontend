@@ -62,9 +62,12 @@ function ActionButtonsPopup({
         !isVisible && "hidden"
       }`}
     >
-      {actionButtons.map((button: ActionButtonType) => {
+      {actionButtons.map((button: ActionButtonType, index: number) => {
         return (
-          <div className="hover:bg-gray-200 px-[10px]">
+          <div
+            className="hover:bg-gray-200 px-[10px]"
+            key={`actionButton-${index}`}
+          >
             <IconButton
               Icon={button.icon}
               action={button.action}
