@@ -35,7 +35,8 @@ function Message({ message }: Props) {
                 console.log("RESPONSE: ", response);
                 if (response.success) {
                   toast.success("Invitation accepted");
-                  dispatch(storeGroupId(response.data.groupId));
+                  dispatch(storeGroupId(response.data.data.groupId));
+                  localStorage.setItem("groupId", response.data.data.groupId);
                   navigation("/group");
                 } else {
                   toast.error(response.message);
@@ -61,8 +62,12 @@ function Message({ message }: Props) {
                 const response = await acceptJoinRequest(message.id);
                 console.log("Response: ", response);
                 if (response.success) {
-                  toast.success("Invitation accepted");
-                  dispatch(storeGroupId(response.data.groupId));
+                  toast.success("Group Join accepted");
+                  dispatch(storeGroupId(response.data.data.groupId));
+                  localStorage.setItem(
+                    "groupId",
+                    response.data.data.groupId.toString()
+                  );
                   navigation("/group");
                 } else {
                   toast.error(response.message);

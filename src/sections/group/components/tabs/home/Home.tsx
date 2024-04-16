@@ -7,7 +7,10 @@ import {
   UserType,
 } from "../../../interfaceTypes";
 
-import { storeActiveChallenge } from "../../../../../features/groupStore/groupSlice";
+import {
+  storeActiveChallenge,
+  storeGroupId,
+} from "../../../../../features/groupStore/groupSlice";
 import { RootState } from "../../../../../features/store";
 
 import { IoSettingsSharp } from "react-icons/io5";
@@ -18,6 +21,7 @@ import TaskArea from "./components/TaskArea";
 import IconButton from "../../../../../components/buttons/IconButton";
 import ActionButtonsPopup from "../../../../../components/popups/ActionButtonsPopup";
 import { removeUserFromGroup } from "../../../services/apiRequests";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   loading: boolean;
@@ -25,6 +29,7 @@ interface Props {
 
 function Home({ loading }: Props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { userInfo } = useSelector((state: RootState) => state.general);
   const { activeChallengeStore } = useSelector(
@@ -162,6 +167,10 @@ function Home({ loading }: Props) {
                         userInfo?.id,
                         activeChallengeStore?.group_id
                       );
+                      dispatch(storeActiveChallenge(undefined));
+                      dispatch(storeGroupId(undefined));
+                      localStorage.removeItem("groupId");
+                      navigate("/");
                       console.log(
                         "RESPONSE remove user from group: ",
                         response
