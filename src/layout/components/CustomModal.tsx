@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../features/store";
 import CreateChallengeModal from "../../sections/home/components/CreateChallengeModal";
 import CreateNewTask from "../../sections/group/components/tabs/challenges/tasks/CreateNewTask";
+import ConfirmLeaveGroup from "../../sections/group/components/tabs/home/components/ConfirmLeaveGroup";
 
 const CustomModal = () => {
   const { customModalOpen, customModalComponent } = useSelector(
@@ -17,9 +18,10 @@ const CustomModal = () => {
     switch (customModalComponent) {
       case "createNewChallenge":
         return <CreateChallengeModal />;
-
       case "createNewTask":
         return <CreateNewTask />;
+      case "confirmLeaveGroup":
+        return <ConfirmLeaveGroup />;
       default:
         return null;
     }

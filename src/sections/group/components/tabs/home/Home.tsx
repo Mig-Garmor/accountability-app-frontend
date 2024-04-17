@@ -7,13 +7,8 @@ import {
   UserType,
 } from "../../../interfaceTypes";
 
-import {
-  storeActiveChallenge,
-  storeGroupId,
-} from "../../../../../features/groupStore/groupSlice";
+import { storeActiveChallenge } from "../../../../../features/groupStore/groupSlice";
 import { RootState } from "../../../../../features/store";
-
-import { useQueryClient } from "react-query";
 
 import { IoSettingsSharp } from "react-icons/io5";
 
@@ -22,8 +17,10 @@ import { leaveGroup } from "./utils/actionButtonProps";
 import TaskArea from "./components/TaskArea";
 import IconButton from "../../../../../components/buttons/IconButton";
 import ActionButtonsPopup from "../../../../../components/popups/ActionButtonsPopup";
-import { removeUserFromGroup } from "../../../services/apiRequests";
-import { useNavigate } from "react-router-dom";
+import {
+  storeCustomModalComponent,
+  toggleCustomModal,
+} from "../../../../../features/generalStore/generalSlice";
 
 interface Props {
   loading: boolean;
@@ -31,9 +28,6 @@ interface Props {
 
 function Home({ loading }: Props) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const queryClient = useQueryClient();
 
   const { userInfo } = useSelector((state: RootState) => state.general);
   const { activeChallengeStore } = useSelector(
@@ -142,11 +136,6 @@ function Home({ loading }: Props) {
     };
   }, []);
 
-  function handleRemoveData() {
-    // Replace 'activeChallenge' with your specific query key
-    queryClient.removeQueries("activeChallenge", { exact: true });
-  }
-
   return (
     <>
       {loading ? (
@@ -172,19 +161,8 @@ function Home({ loading }: Props) {
                   {
                     ...leaveGroup,
                     action: async () => {
-                      const response = await removeUserFromGroup(
-                        userInfo?.id,
-                        activeChallengeStore?.group_id
-                      );
-                      dispatch(storeActiveChallenge(undefined));
-                      dispatch(storeGroupId(undefined));
-                      localStorage.removeItem("groupId");
-                      handleRemoveData();
-                      navigate("/");
-                      console.log(
-                        "RESPONSE remove user from group: ",
-                        response
-                      );
+                      dispatch(storeCustomModalComponent("confirmLeaveGroup"));
+                      dispatch(toggleCustomModal());
                     },
                   },
                 ]}

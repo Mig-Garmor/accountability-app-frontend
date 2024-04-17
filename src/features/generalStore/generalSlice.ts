@@ -3,7 +3,11 @@ import { ModalData } from "./interfaceTypes";
 import { CurrentUser } from "../../types/interfaceTypes";
 // import {} from "./interfaceTypes";
 
-type CustomModalTypes = "createNewChallenge" | "createNewTask" | undefined;
+type CustomModalTypes =
+  | "createNewChallenge"
+  | "createNewTask"
+  | "confirmLeaveGroup"
+  | undefined;
 
 interface InitialStateObject {
   accessToken: string | undefined;
