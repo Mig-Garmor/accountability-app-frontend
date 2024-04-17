@@ -7,8 +7,11 @@ export interface ChallengeType {
 }
 
 export interface GroupData {
-  id: number;
-  challenges: ChallengeType[];
+  group: {
+    id: number;
+    challenges: ChallengeType[];
+  };
+  activeChallenge: boolean;
 }
 
 export interface CompletedTask {

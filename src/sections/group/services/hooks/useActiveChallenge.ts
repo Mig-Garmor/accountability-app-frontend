@@ -15,13 +15,14 @@ const fetchActiveChallenge = async (
 };
 
 const useActiveChallenge = (
-  groupId: number
+  groupId: number,
+  shouldFetch: boolean | undefined
 ): UseQueryResult<ChallengeType, Error> => {
   return useQuery<ChallengeType, Error>(
     ["activeChallenge"],
     () => fetchActiveChallenge(groupId),
     {
-      enabled: !!groupId,
+      enabled: shouldFetch,
     }
   );
 };

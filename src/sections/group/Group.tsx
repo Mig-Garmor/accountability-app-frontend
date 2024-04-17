@@ -23,7 +23,7 @@ const Group = () => {
 
   //Fetch groups
   const {
-    data: group,
+    data: groupData,
     error: groupError,
     isLoading: groupLoading,
     refetch: groupRefetch,
@@ -37,13 +37,16 @@ const Group = () => {
     // refetch: usersRefetch,
   } = useUsers();
 
+  const [shouldFetchActiveChallenge, setShouldFetchActiveChallenge] =
+    useState(false);
+
   //Fetch active challenge
   const {
     data: activeChallenge,
     // error: activeChallengeError,
     isLoading: activeChallengeLoading,
     refetch: activeChallengeRefetch,
-  } = useActiveChallenge(groupId ? groupId : 0);
+  } = useActiveChallenge(groupId ? groupId : 0, shouldFetchActiveChallenge);
 
   const [componentLoaded, setComponentLoaded] = useState(false);
 
@@ -57,13 +60,21 @@ const Group = () => {
   >(undefined);
 
   useEffect(() => {
+    if (groupData?.activeChallenge) {
+      setShouldFetchActiveChallenge(true);
+    } else {
+      setShouldFetchActiveChallenge(false);
+    }
+  }, [groupData]);
+
+  useEffect(() => {
     let tempTabsArray: { name: string; tab: TabOptions }[] = [
       { name: "Challenges", tab: "challenges" },
     ]; // Default to showing at least the Home tab
 
-    if (activeChallenge) {
+    if (groupData?.activeChallenge) {
       console.log("ACTIVE CHALLENGE: ", activeChallenge);
-      tempTabsArray = [...tempTabsArray, { name: "Home", tab: "home" }];
+      tempTabsArray = [{ name: "Home", tab: "home" }, ...tempTabsArray];
     }
     if (activeChallenge?.userPermission === "ADMIN") {
       // If the user is an admin, add additional tabs
@@ -74,13 +85,15 @@ const Group = () => {
       ];
     }
 
-    if (!activeChallenge) {
+    if (!groupData?.activeChallenge && !groupLoading) {
       setActiveTab("challenges");
+    } else {
+      setActiveTab("home");
     }
 
     // Update the state with the appropriate tabs for the user's permission
     setTabsArray(tempTabsArray);
-  }, [activeChallenge]);
+  }, [activeChallenge, groupData]);
 
   useEffect(() => {
     if (componentLoaded) {
@@ -111,7 +124,7 @@ const Group = () => {
       case "home":
         return <Home loading={activeChallengeLoading} />;
       case "challenges":
-        return <Challenges group={group} setActiveTab={setActiveTab} />;
+        return <Challenges groupData={groupData} setActiveTab={setActiveTab} />;
       case "inviteUsers":
         return <InviteUsers users={usersData?.users} loading={usersLoading} />;
     }

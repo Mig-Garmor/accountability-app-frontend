@@ -10,11 +10,11 @@ import {
 } from "../../../../../features/generalStore/generalSlice";
 
 interface Props {
-  group: GroupData | undefined;
+  groupData: GroupData | undefined;
   setActiveTab: Dispatch<SetStateAction<"home" | "challenges" | "inviteUsers">>;
 }
 
-function Challenges({ group, setActiveTab }: Props) {
+function Challenges({ groupData, setActiveTab }: Props) {
   const dispatch = useDispatch();
 
   return (
@@ -22,13 +22,15 @@ function Challenges({ group, setActiveTab }: Props) {
       {/* Render your group details here */}
       {/* <pre>{JSON.stringify(group, null, 2)}</pre> */}
       <div className="grid grid-cols-2 gap-4">
-        {group?.challenges.map((challenge: ChallengeType, index: number) => (
-          <Challenge
-            key={index}
-            challenge={challenge}
-            setActiveTab={setActiveTab}
-          />
-        ))}
+        {groupData?.group?.challenges.map(
+          (challenge: ChallengeType, index: number) => (
+            <Challenge
+              key={index}
+              challenge={challenge}
+              setActiveTab={setActiveTab}
+            />
+          )
+        )}
         <div className="flex min-w-[230px] items-center justify-center px-[10px] py-[10px]">
           <IconButton
             Icon={GoPlus}
