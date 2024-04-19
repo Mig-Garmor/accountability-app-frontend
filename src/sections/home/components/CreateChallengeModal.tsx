@@ -6,6 +6,7 @@ import LoadingSpinner from "../../../components/LoadingSpinner";
 import { createChallenge } from "../services/apiRequests";
 import { RootState } from "../../../features/store";
 import { toggleRefetchGroupData } from "../../../features/groupStore/groupSlice";
+import { toast } from "react-toastify";
 
 function CreateChallengeModal() {
   const dispatch = useDispatch();
@@ -68,8 +69,13 @@ function CreateChallengeModal() {
               if (!failedValidations()) {
                 const response = await createChallenge(groupId, startDate);
                 console.log("CREATE CHALLENGE RESPONSE: ", response);
-                dispatch(toggleRefetchGroupData());
-                dispatch(toggleCustomModal());
+                if (response?.success) {
+                  dispatch(toggleRefetchGroupData());
+                  dispatch(toggleCustomModal());
+                  toast.success("Challenge created");
+                } else {
+                  toast.error(response?.data?.message);
+                }
               }
             }
 

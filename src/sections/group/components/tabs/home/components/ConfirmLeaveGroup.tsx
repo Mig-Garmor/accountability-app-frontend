@@ -56,6 +56,7 @@ function ConfirmLeaveGroup() {
             navigate("/");
             console.log("RESPONSE remove user from group: ", response);
             setLoading(false);
+            dispatch(toggleCustomModal());
           }}
           text={"Leave Group"}
           loading={loading}

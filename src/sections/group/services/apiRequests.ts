@@ -116,3 +116,16 @@ export const removeUserFromGroup = async (
     return handleApiError(error);
   }
 };
+
+export const removeChallengeFromGroup = async (
+  challengeId: number | undefined
+) => {
+  try {
+    if (challengeId) {
+      const response = await apiClient.delete(`/challenge/${challengeId}`);
+      return handleApiResponse(response);
+    }
+  } catch (error) {
+    return handleApiError(error);
+  }
+};

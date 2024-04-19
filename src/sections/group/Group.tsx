@@ -13,6 +13,7 @@ import useActiveChallenge from "./services/hooks/useActiveChallenge";
 import {
   storeActiveChallenge,
   storeChallengeId,
+  storeGroupUserPermission,
 } from "../../features/groupStore/groupSlice";
 
 const Group = () => {
@@ -46,7 +47,10 @@ const Group = () => {
     // error: activeChallengeError,
     isLoading: activeChallengeLoading,
     refetch: activeChallengeRefetch,
-  } = useActiveChallenge(groupId ? groupId : 0, shouldFetchActiveChallenge);
+  } = useActiveChallenge(
+    groupId ? groupId : 0,
+    shouldFetchActiveChallenge && groupId && groupId !== 0 ? true : false
+  );
 
   const [componentLoaded, setComponentLoaded] = useState(false);
 
@@ -65,7 +69,11 @@ const Group = () => {
     } else {
       setShouldFetchActiveChallenge(false);
     }
-  }, [groupData]);
+
+    if (groupData?.userPermission) {
+      dispatch(storeGroupUserPermission(groupData.userPermission));
+    }
+  }, [groupData, groupId]);
 
   useEffect(() => {
     let tempTabsArray: { name: string; tab: TabOptions }[] = [

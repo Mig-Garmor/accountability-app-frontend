@@ -7,6 +7,7 @@ type CustomModalTypes =
   | "createNewChallenge"
   | "createNewTask"
   | "confirmLeaveGroup"
+  | "confirmDeleteChallenge"
   | undefined;
 
 interface InitialStateObject {

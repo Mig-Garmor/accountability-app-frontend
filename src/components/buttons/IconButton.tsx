@@ -1,4 +1,4 @@
-import React, { ElementType } from "react";
+import { ElementType } from "react";
 
 // Define prop types
 interface Props {

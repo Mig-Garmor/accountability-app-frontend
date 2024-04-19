@@ -3,11 +3,12 @@ import { ChallengeType, GroupData } from "../../../interfaceTypes";
 import Challenge from "./Challenge";
 import IconButton from "../../../../../components/buttons/IconButton";
 import { GoPlus } from "react-icons/go";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   storeCustomModalComponent,
   toggleCustomModal,
 } from "../../../../../features/generalStore/generalSlice";
+import { RootState } from "../../../../../features/store";
 
 interface Props {
   groupData: GroupData | undefined;
@@ -16,6 +17,10 @@ interface Props {
 
 function Challenges({ groupData, setActiveTab }: Props) {
   const dispatch = useDispatch();
+
+  const { groupUserPermission } = useSelector(
+    (state: RootState) => state.group
+  );
 
   return (
     <div>
@@ -31,17 +36,19 @@ function Challenges({ groupData, setActiveTab }: Props) {
             />
           )
         )}
-        <div className="flex min-w-[230px] items-center justify-center px-[10px] py-[10px]">
-          <IconButton
-            Icon={GoPlus}
-            action={() => {
-              dispatch(storeCustomModalComponent("createNewChallenge"));
-              dispatch(toggleCustomModal());
-            }}
-            label="Create new Challenge"
-            showStyles
-          />
-        </div>
+        {groupUserPermission === "ADMIN" && (
+          <div className="flex min-w-[230px] items-center justify-center px-[10px] py-[10px]">
+            <IconButton
+              Icon={GoPlus}
+              action={() => {
+                dispatch(storeCustomModalComponent("createNewChallenge"));
+                dispatch(toggleCustomModal());
+              }}
+              label="Create new Challenge"
+              showStyles
+            />
+          </div>
+        )}
       </div>
     </div>
   );
