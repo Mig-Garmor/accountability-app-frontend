@@ -27,15 +27,20 @@ function Challenges({ groupData, setActiveTab }: Props) {
       {/* Render your group details here */}
       {/* <pre>{JSON.stringify(group, null, 2)}</pre> */}
       <div className="grid grid-cols-2 gap-4">
-        {groupData?.group?.challenges.map(
-          (challenge: ChallengeType, index: number) => (
-            <Challenge
-              key={index}
-              challenge={challenge}
-              setActiveTab={setActiveTab}
-            />
-          )
-        )}
+        {groupData?.group?.challenges?.length &&
+        groupData?.group?.challenges?.length > 0
+          ? groupData?.group?.challenges.map(
+              (challenge: ChallengeType, index: number) => (
+                <Challenge
+                  key={index}
+                  challenge={challenge}
+                  setActiveTab={setActiveTab}
+                />
+              )
+            )
+          : groupUserPermission !== "ADMIN" && (
+              <div>No challenges yet. Ask Admin to create new challenges</div>
+            )}
         {groupUserPermission === "ADMIN" && (
           <div className="flex min-w-[230px] items-center justify-center px-[10px] py-[10px]">
             <IconButton
