@@ -14,14 +14,18 @@ import {
   storeActiveChallenge,
   storeChallengeId,
   storeGroupChallenges,
+  storeGroupData,
   storeGroupUserPermission,
 } from "../../features/groupStore/groupSlice";
 
 const Group = () => {
   const dispatch = useDispatch();
-  const { groupId, refetchGroupData, refetchActiveChallengeData } = useSelector(
-    (state: RootState) => state.group
-  );
+  const {
+    groupId,
+    refetchGroupData,
+    refetchActiveChallengeData,
+    groupDataStored,
+  } = useSelector((state: RootState) => state.group);
 
   //Fetch groups
   const {
@@ -65,27 +69,37 @@ const Group = () => {
   >(undefined);
 
   useEffect(() => {
-    if (groupData?.activeChallenge) {
+    if (groupData) {
+      dispatch(storeGroupData(groupData));
+    }
+  }, [groupData]);
+
+  useEffect(() => {
+    if (groupDataStored?.activeChallenge) {
       setShouldFetchActiveChallenge(true);
     } else {
       setShouldFetchActiveChallenge(false);
     }
 
-    if (groupData?.userPermission) {
-      dispatch(storeGroupUserPermission(groupData.userPermission));
+    if (groupDataStored?.userPermission) {
+      dispatch(storeGroupUserPermission(groupDataStored.userPermission));
     }
 
-    if (groupData?.group.challenges) {
+    if (groupDataStored?.group.challenges) {
       dispatch(storeGroupChallenges(groupData?.group.challenges));
     }
-  }, [groupData, groupId]);
+
+    if (groupDataStored) {
+      dispatch(storeGroupData(groupData));
+    }
+  }, [groupDataStored, groupId]);
 
   useEffect(() => {
     let tempTabsArray: { name: string; tab: TabOptions }[] = [
       { name: "Challenges", tab: "challenges" },
     ]; // Default to showing at least the Home tab
 
-    if (groupData?.activeChallenge) {
+    if (groupDataStored?.activeChallenge) {
       console.log("ACTIVE CHALLENGE: ", activeChallenge);
       tempTabsArray = [{ name: "Home", tab: "home" }, ...tempTabsArray];
     }
@@ -98,7 +112,7 @@ const Group = () => {
       ];
     }
 
-    if (!groupData?.activeChallenge && !groupLoading) {
+    if (!groupDataStored?.activeChallenge && !groupLoading) {
       setActiveTab("challenges");
     } else {
       setActiveTab("home");
@@ -106,7 +120,7 @@ const Group = () => {
 
     // Update the state with the appropriate tabs for the user's permission
     setTabsArray(tempTabsArray);
-  }, [activeChallenge, groupData]);
+  }, [activeChallenge, groupDataStored]);
 
   useEffect(() => {
     if (componentLoaded) {

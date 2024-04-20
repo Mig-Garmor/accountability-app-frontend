@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ChallengeType,
   ChallengeTypeLite,
+  GroupData,
 } from "../../sections/group/interfaceTypes";
 // import {} from "./interfaceTypes";
 
@@ -10,6 +11,7 @@ type UserPermissions = "ADMIN" | "USER";
 interface InitialStateObject {
   groupId: number | undefined;
   refetchGroupData: boolean;
+  groupDataStored: GroupData | undefined;
   //Challenges
   challengeId: number | undefined;
   activeChallengeStore: ChallengeType | undefined;
@@ -22,6 +24,7 @@ interface InitialStateObject {
 const initialState: InitialStateObject = {
   groupId: undefined,
   refetchGroupData: false,
+  groupDataStored: undefined,
   //Challenges
   challengeId: undefined,
   activeChallengeStore: undefined,
@@ -40,6 +43,9 @@ const generalSlice = createSlice({
     },
     toggleRefetchGroupData(state) {
       state.refetchGroupData = !state.refetchGroupData;
+    },
+    storeGroupData(state, action: PayloadAction<GroupData | undefined>) {
+      state.groupDataStored = action.payload;
     },
     //Challenges
     storeChallengeId(state, action: PayloadAction<number | undefined>) {
@@ -70,6 +76,7 @@ const generalSlice = createSlice({
 export const {
   storeGroupId,
   toggleRefetchGroupData,
+  storeGroupData,
   //Challenges
   storeChallengeId,
   storeActiveChallenge,

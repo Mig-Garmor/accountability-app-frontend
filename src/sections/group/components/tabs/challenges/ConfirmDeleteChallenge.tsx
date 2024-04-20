@@ -2,17 +2,25 @@ import { useState } from "react";
 
 import CustomButton from "../../../../../components/buttons/CustomButton";
 
+import { useQueryClient } from "react-query";
+
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCustomModal } from "../../../../../features/generalStore/generalSlice";
 import { removeChallengeFromGroup } from "../../../services/apiRequests";
 import { RootState } from "../../../../../features/store";
-import { storeGroupChallenges } from "../../../../../features/groupStore/groupSlice";
+import {
+  storeGroupChallenges,
+  storeGroupData,
+} from "../../../../../features/groupStore/groupSlice";
 
 function ConfirmDeleteChallenge() {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const { challengeToDelete } = useSelector((state: RootState) => state.modal);
-  const { groupChallenges } = useSelector((state: RootState) => state.group);
+  const { groupChallenges, groupDataStored } = useSelector(
+    (state: RootState) => state.group
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -20,6 +28,13 @@ function ConfirmDeleteChallenge() {
     const tempArray = groupChallenges?.filter(
       (challenge) => challenge.id !== challengeToDelete
     );
+    if (tempArray?.length === 0) {
+      if (groupDataStored) {
+        const tempGroupData = { ...groupDataStored, activeChallenge: false };
+        dispatch(storeGroupData(tempGroupData));
+      }
+      queryClient.invalidateQueries("group");
+    }
     dispatch(storeGroupChallenges(tempArray));
   };
 
