@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChallengeType } from "../../sections/group/interfaceTypes";
+import {
+  ChallengeType,
+  ChallengeTypeLite,
+} from "../../sections/group/interfaceTypes";
 // import {} from "./interfaceTypes";
 
 type UserPermissions = "ADMIN" | "USER";
@@ -11,6 +14,8 @@ interface InitialStateObject {
   challengeId: number | undefined;
   activeChallengeStore: ChallengeType | undefined;
   refetchActiveChallengeData: boolean;
+  groupChallenges: ChallengeTypeLite[] | undefined;
+  //Permissions
   groupUserPermission: UserPermissions | undefined;
 }
 
@@ -21,6 +26,8 @@ const initialState: InitialStateObject = {
   challengeId: undefined,
   activeChallengeStore: undefined,
   refetchActiveChallengeData: false,
+  groupChallenges: undefined,
+  //Permissions
   groupUserPermission: undefined,
 };
 
@@ -47,6 +54,13 @@ const generalSlice = createSlice({
     toggleRefetchActiveChallengeData(state) {
       state.refetchActiveChallengeData = !state.refetchActiveChallengeData;
     },
+    storeGroupChallenges(
+      state,
+      action: PayloadAction<ChallengeTypeLite[] | undefined>
+    ) {
+      state.groupChallenges = action.payload;
+    },
+    //Permissions
     storeGroupUserPermission(state, action: PayloadAction<UserPermissions>) {
       state.groupUserPermission = action.payload;
     },
@@ -60,6 +74,8 @@ export const {
   storeChallengeId,
   storeActiveChallenge,
   toggleRefetchActiveChallengeData,
+  storeGroupChallenges,
+  //Permissions
   storeGroupUserPermission,
 } = generalSlice.actions;
 export default generalSlice.reducer;

@@ -13,6 +13,7 @@ import useActiveChallenge from "./services/hooks/useActiveChallenge";
 import {
   storeActiveChallenge,
   storeChallengeId,
+  storeGroupChallenges,
   storeGroupUserPermission,
 } from "../../features/groupStore/groupSlice";
 
@@ -73,6 +74,10 @@ const Group = () => {
     if (groupData?.userPermission) {
       dispatch(storeGroupUserPermission(groupData.userPermission));
     }
+
+    if (groupData?.group.challenges) {
+      dispatch(storeGroupChallenges(groupData?.group.challenges));
+    }
   }, [groupData, groupId]);
 
   useEffect(() => {
@@ -132,7 +137,7 @@ const Group = () => {
       case "home":
         return <Home loading={activeChallengeLoading} />;
       case "challenges":
-        return <Challenges groupData={groupData} setActiveTab={setActiveTab} />;
+        return <Challenges setActiveTab={setActiveTab} />;
       case "inviteUsers":
         return <InviteUsers users={usersData?.users} loading={usersLoading} />;
     }

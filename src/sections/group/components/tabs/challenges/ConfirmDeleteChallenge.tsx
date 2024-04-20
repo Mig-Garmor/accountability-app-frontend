@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleCustomModal } from "../../../../../features/generalStore/generalSlice";
 import { removeChallengeFromGroup } from "../../../services/apiRequests";
 import { RootState } from "../../../../../features/store";
+import { storeGroupChallenges } from "../../../../../features/groupStore/groupSlice";
 
 function ConfirmDeleteChallenge() {
   const dispatch = useDispatch();
@@ -15,8 +16,16 @@ function ConfirmDeleteChallenge() {
   const queryClient = useQueryClient();
 
   const { challengeToDelete } = useSelector((state: RootState) => state.modal);
+  const { groupChallenges } = useSelector((state: RootState) => state.group);
 
   const [loading, setLoading] = useState(false);
+
+  const removeDeletedChallengeFromArray = () => {
+    const tempArray = groupChallenges?.filter(
+      (challenge) => challenge.id !== challengeToDelete
+    );
+    dispatch(storeGroupChallenges(tempArray));
+  };
 
   return (
     <div>
@@ -37,7 +46,7 @@ function ConfirmDeleteChallenge() {
             if (response?.success) {
               queryClient.invalidateQueries("group");
               dispatch(toggleCustomModal());
-
+              removeDeletedChallengeFromArray();
               console.log("RESPONSE remove challenge from group: ", response);
             }
 

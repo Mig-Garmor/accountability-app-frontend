@@ -1,5 +1,11 @@
 export type UserPermission = "ADMIN" | "USER";
 
+export interface ChallengeTypeLite {
+  id: number;
+  group_id: number;
+  users: UserType[] | [];
+  start_date: string;
+}
 export interface ChallengeType {
   id: number;
   group_id: number;
@@ -11,7 +17,7 @@ export interface ChallengeType {
 export interface GroupData {
   group: {
     id: number;
-    challenges: ChallengeType[];
+    challenges: ChallengeTypeLite[];
   };
   activeChallenge: boolean;
   userPermission: UserPermission;

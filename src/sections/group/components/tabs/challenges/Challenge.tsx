@@ -1,5 +1,5 @@
 import { SetStateAction, useState, Dispatch } from "react";
-import { ChallengeType } from "../../../interfaceTypes";
+import { ChallengeTypeLite } from "../../../interfaceTypes";
 import { enterChallenge } from "../../../services/apiRequests";
 import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
@@ -16,7 +16,7 @@ import { storeChallengeToDelete } from "../../../../../features/modalStore/modal
 import { RootState } from "../../../../../features/store";
 
 interface Props {
-  challenge: ChallengeType;
+  challenge: ChallengeTypeLite;
   setActiveTab: Dispatch<SetStateAction<"home" | "challenges" | "inviteUsers">>;
 }
 

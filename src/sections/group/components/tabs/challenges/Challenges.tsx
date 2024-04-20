@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { ChallengeType, GroupData } from "../../../interfaceTypes";
+import { ChallengeTypeLite } from "../../../interfaceTypes";
 import Challenge from "./Challenge";
 import IconButton from "../../../../../components/buttons/IconButton";
 import { GoPlus } from "react-icons/go";
@@ -11,14 +11,13 @@ import {
 import { RootState } from "../../../../../features/store";
 
 interface Props {
-  groupData: GroupData | undefined;
   setActiveTab: Dispatch<SetStateAction<"home" | "challenges" | "inviteUsers">>;
 }
 
-function Challenges({ groupData, setActiveTab }: Props) {
+function Challenges({ setActiveTab }: Props) {
   const dispatch = useDispatch();
 
-  const { groupUserPermission } = useSelector(
+  const { groupUserPermission, groupChallenges } = useSelector(
     (state: RootState) => state.group
   );
 
@@ -27,10 +26,9 @@ function Challenges({ groupData, setActiveTab }: Props) {
       {/* Render your group details here */}
       {/* <pre>{JSON.stringify(group, null, 2)}</pre> */}
       <div className="grid grid-cols-2 gap-4">
-        {groupData?.group?.challenges?.length &&
-        groupData?.group?.challenges?.length > 0
-          ? groupData?.group?.challenges.map(
-              (challenge: ChallengeType, index: number) => (
+        {groupChallenges && groupChallenges.length > 0
+          ? groupChallenges.map(
+              (challenge: ChallengeTypeLite, index: number) => (
                 <Challenge
                   key={index}
                   challenge={challenge}
