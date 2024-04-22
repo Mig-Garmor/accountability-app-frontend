@@ -5,6 +5,7 @@ export interface ChallengeTypeLite {
   group_id: number;
   users: UserType[] | [];
   start_date: string;
+  userIsAssociated: boolean;
 }
 export interface ChallengeType {
   id: number;

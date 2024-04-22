@@ -14,6 +14,7 @@ import {
 } from "../../../../../features/generalStore/generalSlice";
 import { storeChallengeToDelete } from "../../../../../features/modalStore/modalSlice";
 import { RootState } from "../../../../../features/store";
+import { toast } from "react-toastify";
 
 interface Props {
   challenge: ChallengeTypeLite;
@@ -28,7 +29,7 @@ function Challenge({ challenge, setActiveTab }: Props) {
   );
   const [loading, setLoading] = useState(false);
   return (
-    <div className="flex flex-col border border-black min-w-[230px] px-[10px] py-[10px] rounded-[4px] relative">
+    <div className="flex flex-col items-center border border-black min-w-[230px] px-[10px] py-[10px] rounded-[4px] relative">
       {groupUserPermission === "ADMIN" && (
         <div className="absolute right-[5px]">
           <IconButton
@@ -47,20 +48,28 @@ function Challenge({ challenge, setActiveTab }: Props) {
       <h2 className="text-md text-center mb-[10px]">
         Start date: {challenge.start_date}
       </h2>
-      <CustomButton
-        text={"Enter challenge"}
-        action={async () => {
-          setLoading(true);
-          const response = await enterChallenge(challenge.id);
-          if (response.data) {
-            dispatch(toggleRefetchGroupData());
-            setActiveTab("home");
-          }
-          setLoading(false);
-        }}
-        customStyles="w-[80%]"
-        loading={loading}
-      />
+      {challenge.userIsAssociated ? (
+        <div className="w-[80%] text-center border border-gray-200 rounded-[4px] bg-yellow-300">
+          You are a member
+        </div>
+      ) : (
+        <CustomButton
+          text={"Enter challenge"}
+          action={async () => {
+            setLoading(true);
+            const response = await enterChallenge(challenge.id);
+            if (response.data) {
+              dispatch(toggleRefetchGroupData());
+              setActiveTab("home");
+            } else {
+              toast.error(response.message);
+            }
+            setLoading(false);
+          }}
+          customStyles="w-[80%]"
+          loading={loading}
+        />
+      )}
     </div>
   );
 }
