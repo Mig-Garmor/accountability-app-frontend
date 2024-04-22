@@ -143,7 +143,7 @@ function Home({ loading }: Props) {
       ) : (
         <div className="w-full min-w-0">
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl mb-[30px]">Active Challenge</h1>
+            <h1 className="text-3xl mb-[30px]">{`Challenge ${activeChallengeStore?.id}`}</h1>
             <div className="flex relative">
               <IconButton
                 Icon={IoSettingsSharp}
