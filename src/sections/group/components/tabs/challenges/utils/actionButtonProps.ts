@@ -1,9 +1,9 @@
 import { TiCancel } from "react-icons/ti";
 
-const leaveChallenge = {
+const leaveGroup = {
   icon: TiCancel,
   iconColor: "text-red-500",
-  label: "Leave challenge",
+  label: "Leave group",
 };
 
-export { leaveChallenge };
+export { leaveGroup };

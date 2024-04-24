@@ -1,17 +1,17 @@
 import { useState } from "react";
 
-import CustomButton from "../../../../../components/buttons/CustomButton";
+import CustomButton from "../../../../../../components/buttons/CustomButton";
 
 import { useQueryClient } from "react-query";
 
 import { useDispatch, useSelector } from "react-redux";
-import { toggleCustomModal } from "../../../../../features/generalStore/generalSlice";
-import { removeChallengeFromGroup } from "../../../services/apiRequests";
-import { RootState } from "../../../../../features/store";
+import { toggleCustomModal } from "../../../../../../features/generalStore/generalSlice";
+import { removeChallengeFromGroup } from "../../../../services/apiRequests";
+import { RootState } from "../../../../../../features/store";
 import {
   storeGroupChallenges,
   storeGroupData,
-} from "../../../../../features/groupStore/groupSlice";
+} from "../../../../../../features/groupStore/groupSlice";
 
 function ConfirmDeleteChallenge() {
   const dispatch = useDispatch();

@@ -129,3 +129,14 @@ export const removeChallengeFromGroup = async (
     return handleApiError(error);
   }
 };
+
+export const exitChallenge = async (challengeId: number | undefined) => {
+  try {
+    if (challengeId) {
+      const response = await apiClient.post(`/challenge/${challengeId}/exit`);
+      return handleApiResponse(response);
+    }
+  } catch (error) {
+    return handleApiError(error);
+  }
+};

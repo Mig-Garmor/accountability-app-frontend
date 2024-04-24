@@ -5,7 +5,8 @@ import { RootState } from "../../features/store";
 import CreateChallengeModal from "../../sections/home/components/CreateChallengeModal";
 import CreateNewTask from "../../sections/group/components/tabs/challenges/tasks/CreateNewTask";
 import ConfirmLeaveGroup from "../../sections/group/components/tabs/home/components/ConfirmLeaveGroup";
-import ConfirmDeleteChallenge from "../../sections/group/components/tabs/challenges/ConfirmDeleteChallenge";
+import ConfirmDeleteChallenge from "../../sections/group/components/tabs/challenges/components/ConfirmDeleteChallenge";
+import ConfirmLeaveChallenge from "../../sections/group/components/tabs/challenges/components/ConfirmLeaveChallenge";
 
 const CustomModal = () => {
   const { customModalOpen, customModalComponent } = useSelector(
@@ -25,6 +26,8 @@ const CustomModal = () => {
         return <ConfirmLeaveGroup />;
       case "confirmDeleteChallenge":
         return <ConfirmDeleteChallenge />;
+      case "confirmLeaveChallenge":
+        return <ConfirmLeaveChallenge />;
       default:
         return null;
     }

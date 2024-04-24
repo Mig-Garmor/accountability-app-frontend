@@ -24,12 +24,12 @@ interface Props {
 function Challenge({ challenge, setActiveTab }: Props) {
   const dispatch = useDispatch();
 
-  const { groupUserPermission } = useSelector(
+  const { groupUserPermission, activeChallengeStore } = useSelector(
     (state: RootState) => state.group
   );
   const [loading, setLoading] = useState(false);
   return (
-    <div className="flex flex-col items-center border border-black min-w-[230px] px-[10px] py-[10px] rounded-[4px] relative">
+    <div className="flex flex-col items-center border border-black w-[230px] px-[10px] py-[10px] rounded-[4px] relative">
       {groupUserPermission === "ADMIN" && (
         <div className="absolute right-[5px]">
           <IconButton
@@ -42,6 +42,16 @@ function Challenge({ challenge, setActiveTab }: Props) {
             Icon={IoClose}
           />
         </div>
+      )}
+
+      {challenge.id === activeChallengeStore?.id &&
+      challenge.userIsAssociated ? (
+        <div className="h-[20px] w-[20px] absolute left-[5px] top-[5px] rounded-full bg-green-500" />
+      ) : (
+        //This should mark the upcoming challenge with a gray
+        challenge.userIsAssociated && (
+          <div className="h-[20px] w-[20px] absolute left-[5px] top-[5px] rounded-full bg-red-500" />
+        )
       )}
 
       <h1 className="text-xl text-center mb-[10px]">{`Challenge: ${challenge.id}`}</h1>

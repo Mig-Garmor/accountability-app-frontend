@@ -12,8 +12,6 @@ import { RootState } from "../../../../../features/store";
 
 import { IoSettingsSharp } from "react-icons/io5";
 
-import { leaveGroup } from "./utils/actionButtonProps";
-
 import TaskArea from "./components/TaskArea";
 import IconButton from "../../../../../components/buttons/IconButton";
 import ActionButtonsPopup from "../../../../../components/popups/ActionButtonsPopup";
@@ -21,6 +19,8 @@ import {
   storeCustomModalComponent,
   toggleCustomModal,
 } from "../../../../../features/generalStore/generalSlice";
+import { leaveChallenge } from "./utils/actionButtonProps";
+import { storeChallengeToLeave } from "../../../../../features/modalStore/modalSlice";
 
 interface Props {
   loading: boolean;
@@ -159,9 +159,12 @@ function Home({ loading }: Props) {
                 setDisableExternalButton={setIsSettingsButtonDisabled}
                 actionButtons={[
                   {
-                    ...leaveGroup,
+                    ...leaveChallenge,
                     action: async () => {
-                      dispatch(storeCustomModalComponent("confirmLeaveGroup"));
+                      dispatch(
+                        storeCustomModalComponent("confirmLeaveChallenge")
+                      );
+                      dispatch(storeChallengeToLeave(activeChallengeStore?.id));
                       dispatch(toggleCustomModal());
                     },
                   },
