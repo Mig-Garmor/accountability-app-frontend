@@ -7,6 +7,7 @@ import CreateNewTask from "../../sections/group/components/tabs/challenges/tasks
 import ConfirmLeaveGroup from "../../sections/group/components/tabs/home/components/ConfirmLeaveGroup";
 import ConfirmDeleteChallenge from "../../sections/group/components/tabs/challenges/components/ConfirmDeleteChallenge";
 import ConfirmLeaveChallenge from "../../sections/group/components/tabs/challenges/components/ConfirmLeaveChallenge";
+import ConfirmRemoveGroupUser from "../../sections/group/components/tabs/home/components/ConfirmRemoveGroupUser";
 
 const CustomModal = () => {
   const { customModalOpen, customModalComponent } = useSelector(
@@ -28,6 +29,8 @@ const CustomModal = () => {
         return <ConfirmDeleteChallenge />;
       case "confirmLeaveChallenge":
         return <ConfirmLeaveChallenge />;
+      case "confirmRemoveGroupUser":
+        return <ConfirmRemoveGroupUser />;
       default:
         return null;
     }

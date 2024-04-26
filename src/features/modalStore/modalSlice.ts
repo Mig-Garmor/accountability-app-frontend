@@ -3,11 +3,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface InitialStateObject {
   challengeToDelete: number | undefined;
   challengeToLeave: number | undefined;
+  userToRemove: number | undefined;
 }
 
 const initialState: InitialStateObject = {
   challengeToDelete: undefined,
   challengeToLeave: undefined,
+  userToRemove: undefined,
 };
 
 const modalSlice = createSlice({
@@ -20,9 +22,15 @@ const modalSlice = createSlice({
     storeChallengeToLeave(state, action: PayloadAction<number | undefined>) {
       state.challengeToLeave = action.payload;
     },
+    storeUserToRemove(state, action: PayloadAction<number | undefined>) {
+      state.userToRemove = action.payload;
+    },
   },
 });
 
-export const { storeChallengeToDelete, storeChallengeToLeave } =
-  modalSlice.actions;
+export const {
+  storeChallengeToDelete,
+  storeChallengeToLeave,
+  storeUserToRemove,
+} = modalSlice.actions;
 export default modalSlice.reducer;

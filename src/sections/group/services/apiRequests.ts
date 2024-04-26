@@ -101,7 +101,7 @@ export const deleteTask = async (taskId: number) => {
   }
 };
 
-export const removeUserFromGroup = async (
+export const exitGroup = async (
   userId: number | undefined,
   groupId: number | undefined
 ) => {
@@ -134,6 +134,22 @@ export const exitChallenge = async (challengeId: number | undefined) => {
   try {
     if (challengeId) {
       const response = await apiClient.post(`/challenge/${challengeId}/exit`);
+      return handleApiResponse(response);
+    }
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const removeUserFromChallenge = async (
+  challengeId: number | undefined,
+  userIdToRemove: number
+) => {
+  try {
+    if (challengeId) {
+      const response = await apiClient.delete(
+        `/challenge/${challengeId}/remove/${userIdToRemove}`
+      );
       return handleApiResponse(response);
     }
   } catch (error) {

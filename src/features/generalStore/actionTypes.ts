@@ -1,3 +1,4 @@
 export const ActionTypes = {
-  REMOVE_ACCESS_TOKEN: "general/storeAccessToken",
+  STORE_CUSTOM_MODAL_COMPONENT: "general/storeCustomModalComponent",
+  TOGGLE_CUSTOM_MODAL: "general/toggleCustomModal",
 };

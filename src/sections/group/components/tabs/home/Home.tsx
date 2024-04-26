@@ -19,8 +19,9 @@ import {
   storeCustomModalComponent,
   toggleCustomModal,
 } from "../../../../../features/generalStore/generalSlice";
-import { leaveChallenge } from "./utils/actionButtonProps";
+
 import { storeChallengeToLeave } from "../../../../../features/modalStore/modalSlice";
+import { leaveChallenge } from "./utils/actionButtonProps";
 
 interface Props {
   loading: boolean;
@@ -41,16 +42,24 @@ function Home({ loading }: Props) {
   const [isSettingsButtonDisabled, setIsSettingsButtonDisabled] =
     useState(false);
 
+  const [currentUserChallengeInfo, setCurrentUserChallengeInfo] = useState<
+    UserType | undefined
+  >(undefined);
+
   const calculateEndDate = (startDate: string) => {
     const date = new Date(startDate);
     date.setDate(date.getDate() + 30);
     return date.toISOString().split("T")[0];
   };
 
-  const currentUserChallengeInfo: UserType | undefined =
-    activeChallengeStore?.users?.find(
-      (user: UserType) => user.id === userInfo?.id
-    );
+  useEffect(() => {
+    const tempCurrentUserChallengeInfo: UserType | undefined =
+      activeChallengeStore?.users?.find(
+        (user: UserType) => user.id === userInfo?.id
+      );
+
+    setCurrentUserChallengeInfo(tempCurrentUserChallengeInfo);
+  }, [activeChallengeStore]);
 
   // Update the ref each time the state changes
   useEffect(() => {

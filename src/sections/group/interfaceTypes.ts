@@ -41,6 +41,7 @@ export interface Task {
 export interface UserType {
   id: number;
   name: string;
+  groupId?: number;
   tasks: Task[];
 }
 

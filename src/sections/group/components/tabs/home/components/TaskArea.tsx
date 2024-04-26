@@ -1,13 +1,17 @@
 import { Task, UserType } from "../../../../interfaceTypes";
 import { GoPlus } from "react-icons/go";
 import IconButton from "../../../../../../components/buttons/IconButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   storeCustomModalComponent,
   toggleCustomModal,
 } from "../../../../../../features/generalStore/generalSlice";
 import TasksTable from "./TasksTable";
 import { useEffect, useState } from "react";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { removeUser } from "../utils/actionButtonProps";
+import { RootState } from "../../../../../../features/store";
+import { storeUserToRemove } from "../../../../../../features/modalStore/modalSlice";
 
 interface Props {
   user: UserType | undefined;
@@ -15,6 +19,7 @@ interface Props {
 }
 
 function TaskArea({ user, disabled }: Props) {
+  const { userInfo } = useSelector((state: RootState) => state.general);
   const [tasksArray, setTasksArray] = useState<Task[] | undefined>(undefined);
   useEffect(() => {
     setTasksArray(user?.tasks.map((task: Task) => task));
@@ -23,7 +28,23 @@ function TaskArea({ user, disabled }: Props) {
 
   return (
     <div className="mb-[10px] min-w-0">
-      <div className="mb-[20px]">Tasks: {user?.name}</div>
+      <div className="flex justify-between mb-[20px]">
+        <p>Tasks: {user?.name}</p>
+        {user?.id !== userInfo?.id && (
+          <div
+            onClick={() => {
+              dispatch(storeUserToRemove(user?.id));
+            }}
+          >
+            <IconButton
+              Icon={BsThreeDotsVertical}
+              action={() => {}}
+              actionModal
+              actionProps={[removeUser]}
+            />
+          </div>
+        )}
+      </div>
       {user?.tasks && user?.tasks?.length > 0 ? (
         <div className="overflow-hidden min-w-0">
           <TasksTable

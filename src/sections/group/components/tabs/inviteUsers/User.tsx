@@ -16,11 +16,15 @@ function User({ user }: Props) {
 
   const [loading, setLoading] = useState(false);
 
+  const isMember = () => {
+    return groupId === user.groupId ? true : false;
+  };
+
   return (
     <div className="flex flex-col border border-black h-[100px] w-[200px] px-[10px] py-[10px] rounded-[4px]">
       <h1 className="text-xl text-center mb-[10px]">{user.name}</h1>
       <CustomButton
-        text={"Invite User"}
+        text={groupId === user.groupId ? "Group member" : "Invite User"}
         action={async () => {
           //Send user invite
           setLoading(true);
@@ -35,7 +39,10 @@ function User({ user }: Props) {
           }
           setLoading(false);
         }}
-        customStyles="w-[80%]"
+        disabled={isMember()}
+        customStyles={`w-[80%] ${
+          groupId === user.groupId && "from-yellow-500 to-yellow-500 text-black"
+        }`}
         loading={loading}
       />
     </div>

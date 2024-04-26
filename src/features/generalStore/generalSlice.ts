@@ -9,6 +9,7 @@ type CustomModalTypes =
   | "confirmLeaveGroup"
   | "confirmDeleteChallenge"
   | "confirmLeaveChallenge"
+  | "confirmRemoveGroupUser"
   | undefined;
 
 interface InitialStateObject {

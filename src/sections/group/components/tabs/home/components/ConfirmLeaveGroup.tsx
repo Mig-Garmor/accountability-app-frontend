@@ -3,7 +3,7 @@ import { useState } from "react";
 import CustomButton from "../../../../../../components/buttons/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCustomModal } from "../../../../../../features/generalStore/generalSlice";
-import { removeUserFromGroup } from "../../../../services/apiRequests";
+import { exitGroup } from "../../../../services/apiRequests";
 import { RootState } from "../../../../../../features/store";
 import {
   storeActiveChallenge,
@@ -45,7 +45,7 @@ function ConfirmLeaveGroup() {
           action={async () => {
             setLoading(true);
             console.log("Leaving group");
-            const response = await removeUserFromGroup(
+            const response = await exitGroup(
               userInfo?.id,
               activeChallengeStore?.group_id
             );
