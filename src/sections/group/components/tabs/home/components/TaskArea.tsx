@@ -20,6 +20,10 @@ interface Props {
 
 function TaskArea({ user, disabled }: Props) {
   const { userInfo } = useSelector((state: RootState) => state.general);
+  const { groupUserPermission } = useSelector(
+    (state: RootState) => state.group
+  );
+
   const [tasksArray, setTasksArray] = useState<Task[] | undefined>(undefined);
   useEffect(() => {
     setTasksArray(user?.tasks.map((task: Task) => task));
@@ -30,7 +34,7 @@ function TaskArea({ user, disabled }: Props) {
     <div className="mb-[10px] min-w-0">
       <div className="flex justify-between mb-[20px]">
         <p>Tasks: {user?.name}</p>
-        {user?.id !== userInfo?.id && (
+        {user?.id !== userInfo?.id && groupUserPermission === "ADMIN" && (
           <div
             onClick={() => {
               dispatch(storeUserToRemove(user?.id));
