@@ -16,6 +16,7 @@ import {
   storeGroupChallenges,
   storeGroupData,
   storeGroupUserPermission,
+  storeUsersData,
 } from "../../features/groupStore/groupSlice";
 
 const Group = () => {
@@ -67,6 +68,12 @@ const Group = () => {
   const [tabsArray, setTabsArray] = useState<
     { name: string; tab: TabOptions }[] | undefined
   >(undefined);
+
+  useEffect(() => {
+    if (usersData) {
+      dispatch(storeUsersData(usersData));
+    }
+  }, [usersData]);
 
   useEffect(() => {
     if (groupData) {
@@ -153,7 +160,7 @@ const Group = () => {
       case "challenges":
         return <Challenges setActiveTab={setActiveTab} />;
       case "inviteUsers":
-        return <InviteUsers users={usersData?.users} loading={usersLoading} />;
+        return <InviteUsers loading={usersLoading} />;
     }
   };
 

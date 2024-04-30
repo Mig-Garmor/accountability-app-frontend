@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import ModalComponent from "./components/ModalComponent";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   storeUserInfo,
   toggleModal,
@@ -10,9 +10,11 @@ import CustomModal from "./components/CustomModal";
 import { useEffect } from "react";
 import { storeGroupId } from "../features/groupStore/groupSlice";
 import useCurrentUser from "../sections/home/services/hooks/useCurrentUser";
+import { RootState } from "../features/store";
 
 function Layout() {
   const dispatch = useDispatch();
+  const { userInfo } = useSelector((state: RootState) => state.general);
 
   //Fetch currentUser
   const {
@@ -32,6 +34,8 @@ function Layout() {
 
     if (groupIdStorage) {
       dispatch(storeGroupId(parseInt(groupIdStorage)));
+    } else if (userInfo?.groupId) {
+      dispatch(storeGroupId(userInfo.groupId));
     }
   }, []);
 

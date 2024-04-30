@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { storeUserToRemove } from "../../../../../../features/modalStore/modalSlice";
 import { storeActiveChallenge } from "../../../../../../features/groupStore/groupSlice";
 
-function ConfirmRemoveGroupUser() {
+function ConfirmRemoveUserFromChallenge() {
   const dispatch = useDispatch();
 
   const { activeChallengeStore } = useSelector(
@@ -74,4 +74,4 @@ function ConfirmRemoveGroupUser() {
   );
 }
 
-export default ConfirmRemoveGroupUser;
+export default ConfirmRemoveUserFromChallenge;

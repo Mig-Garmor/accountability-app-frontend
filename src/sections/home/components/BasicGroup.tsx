@@ -2,6 +2,7 @@ import { useState } from "react";
 import { requestToJoinGroup } from "../services/apiRequests";
 import { GroupBasic } from "../utils/interfaceTypes";
 import LoadingSpinner from "../../../components/LoadingSpinner";
+import { toast } from "react-toastify";
 
 interface Props {
   group: GroupBasic;
@@ -17,8 +18,18 @@ function BasicGroup({ group }: Props) {
         className="flex justify-center mt-[10px]"
         onClick={async () => {
           setLoadingRequest(true);
+          console.log("Join group attempt");
           const response = await requestToJoinGroup(group.groupId);
-          console.log("Response: ", response);
+
+          if (response?.success) {
+            toast.success("Join request sent");
+          } else {
+            console.log("Response error: ", response.message);
+            toast.error(
+              response?.message ? response.message : "Join request failed"
+            );
+          }
+
           setLoadingRequest(false);
         }}
       >

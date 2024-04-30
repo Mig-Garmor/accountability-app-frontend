@@ -32,11 +32,15 @@ function Home() {
 
   useEffect(() => {
     const groupIdStorage = localStorage.getItem("groupId");
-    if (groupIdStorage && userInfo) {
-      if (!groupId) {
+    if (groupIdStorage || userInfo) {
+      if (userInfo?.groupId) {
+        dispatch(storeGroupId(userInfo.groupId));
+        localStorage.setItem("groupId", userInfo.groupId.toString());
+        navigation("/group");
+      } else if (groupIdStorage) {
         dispatch(storeGroupId(parseInt(groupIdStorage)));
+        navigation("/group");
       }
-      navigation("/group");
     }
   }, [groupId, userInfo]);
 

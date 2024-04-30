@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface InitialStateObject {
   refetchMessages: boolean;
@@ -14,8 +14,8 @@ const messagesSlice = createSlice({
   name: "messages",
   initialState,
   reducers: {
-    setRefetchMessages(state, action: PayloadAction<boolean>) {
-      state.refetchMessages = action.payload;
+    toggleRefetchMessages(state) {
+      state.refetchMessages = !state.refetchMessages;
     },
     toggleMessagesSuccessFlag(state) {
       state.messagesSuccessFlag = !state.messagesSuccessFlag;
@@ -23,6 +23,6 @@ const messagesSlice = createSlice({
   },
 });
 
-export const { setRefetchMessages, toggleMessagesSuccessFlag } =
+export const { toggleRefetchMessages, toggleMessagesSuccessFlag } =
   messagesSlice.actions;
 export default messagesSlice.reducer;

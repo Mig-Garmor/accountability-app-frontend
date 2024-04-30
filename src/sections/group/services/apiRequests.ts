@@ -102,8 +102,8 @@ export const deleteTask = async (taskId: number) => {
 };
 
 export const exitGroup = async (
-  userId: number | undefined,
-  groupId: number | undefined
+  groupId: number | undefined,
+  userId: number | undefined
 ) => {
   try {
     if (userId && groupId) {

@@ -9,7 +9,6 @@ import { storeAccessToken } from "../../features/generalStore/generalSlice";
 
 import MessagesModal from "./messages/MessagesModal";
 import useMessages from "../services/hooks/useMessages";
-import { setRefetchMessages } from "../../features/messagesSlice/messagesSlice";
 
 function Header() {
   const dispatch = useDispatch();
@@ -27,10 +26,7 @@ function Header() {
   } = useMessages();
 
   useEffect(() => {
-    if (refetchMessages) {
-      refetch();
-      dispatch(setRefetchMessages(false));
-    }
+    refetch();
   }, [refetchMessages]);
 
   return (

@@ -16,7 +16,7 @@ export const removeUser = {
   iconName: MdCancel,
   label: "Remove User",
   action: () => {
-    store.dispatch(storeCustomModalComponent("confirmRemoveGroupUser"));
+    store.dispatch(storeCustomModalComponent("confirmRemoveUserFromGroup"));
     store.dispatch(toggleCustomModal());
   },
 };

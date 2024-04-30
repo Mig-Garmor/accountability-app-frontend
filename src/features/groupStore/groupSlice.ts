@@ -3,6 +3,7 @@ import {
   ChallengeType,
   ChallengeTypeLite,
   GroupData,
+  UsersData,
 } from "../../sections/group/interfaceTypes";
 // import {} from "./interfaceTypes";
 
@@ -19,6 +20,8 @@ interface InitialStateObject {
   groupChallenges: ChallengeTypeLite[] | undefined;
   //Permissions
   groupUserPermission: UserPermissions | undefined;
+  //Users
+  usersDataStore: UsersData | undefined;
 }
 
 const initialState: InitialStateObject = {
@@ -32,6 +35,8 @@ const initialState: InitialStateObject = {
   groupChallenges: undefined,
   //Permissions
   groupUserPermission: undefined,
+  //Users
+  usersDataStore: undefined,
 };
 
 const generalSlice = createSlice({
@@ -70,6 +75,10 @@ const generalSlice = createSlice({
     storeGroupUserPermission(state, action: PayloadAction<UserPermissions>) {
       state.groupUserPermission = action.payload;
     },
+    //Users
+    storeUsersData(state, action: PayloadAction<UsersData>) {
+      state.usersDataStore = action.payload;
+    },
   },
 });
 
@@ -84,5 +93,7 @@ export const {
   storeGroupChallenges,
   //Permissions
   storeGroupUserPermission,
+  //Users
+  storeUsersData,
 } = generalSlice.actions;
 export default generalSlice.reducer;

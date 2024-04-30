@@ -4,12 +4,15 @@ import { CurrentUser } from "../../types/interfaceTypes";
 // import {} from "./interfaceTypes";
 
 type CustomModalTypes =
-  | "createNewChallenge"
   | "createNewTask"
+  //Group
   | "confirmLeaveGroup"
+  | "confirmRemoveUserFromGroup"
+  //Challenge
+  | "createNewChallenge"
   | "confirmDeleteChallenge"
   | "confirmLeaveChallenge"
-  | "confirmRemoveGroupUser"
+  | "confirmRemoveUserFromChallenge"
   | undefined;
 
 interface InitialStateObject {

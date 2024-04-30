@@ -7,4 +7,5 @@ export interface APIResponse {
 export interface CurrentUser {
   id: number;
   name: string;
+  groupId?: number;
 }

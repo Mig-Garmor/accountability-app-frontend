@@ -5,10 +5,13 @@ import { acceptInvite } from "../../services/apiRequests";
 import { APIResponse } from "../../../types/interfaceTypes";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { storeGroupId } from "../../../features/groupStore/groupSlice";
+import {
+  storeGroupId,
+  toggleRefetchGroupData,
+} from "../../../features/groupStore/groupSlice";
 import { useNavigate } from "react-router-dom";
 import { acceptJoinRequest } from "../../../sections/home/services/apiRequests";
-import { setRefetchMessages } from "../../../features/messagesSlice/messagesSlice";
+import { toggleRefetchMessages } from "../../../features/messagesSlice/messagesSlice";
 
 interface Props {
   message: MessageType | undefined;
@@ -37,12 +40,13 @@ function Message({ message }: Props) {
                   toast.success("Invitation accepted");
                   dispatch(storeGroupId(response.data.data.groupId));
                   localStorage.setItem("groupId", response.data.data.groupId);
+                  dispatch(toggleRefetchGroupData());
                   navigation("/group");
                 } else {
                   toast.error(response.message);
                 }
                 setLoading(false);
-                dispatch(setRefetchMessages(true));
+                dispatch(toggleRefetchMessages());
               }}
               text={"Accept"}
               customStyles="w-fit px-[20px] text-[14px]"
@@ -60,20 +64,20 @@ function Message({ message }: Props) {
               action={async () => {
                 setLoading(true);
                 const response = await acceptJoinRequest(message.id);
-                console.log("Response: ", response);
+                console.log("Response JOIN: ", response);
                 if (response.success) {
                   toast.success("Group Join accepted");
-                  dispatch(storeGroupId(response.data.data.groupId));
-                  localStorage.setItem(
-                    "groupId",
-                    response.data.data.groupId.toString()
-                  );
-                  navigation("/group");
+                  // dispatch(storeGroupId(response.data.data.groupId));
+                  // localStorage.setItem(
+                  //   "groupId",
+                  //   response.data.data.groupId.toString()
+                  // );
+                  // navigation("/group");
                 } else {
                   toast.error(response.message);
                 }
                 setLoading(false);
-                dispatch(setRefetchMessages(true));
+                dispatch(toggleRefetchMessages());
               }}
               text={"Include"}
               customStyles="w-fit px-[20px] text-[14px]"

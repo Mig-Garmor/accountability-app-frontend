@@ -31,7 +31,7 @@ export const requestToJoinGroup = async (groupId: number) => {
     return response.data;
   } catch (error) {
     console.error("There was an error!", error);
-    throw error;
+    return error;
   }
 };
 

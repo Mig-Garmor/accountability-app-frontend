@@ -1,21 +1,21 @@
-import React from "react";
 import { UserType } from "../../../interfaceTypes";
 import User from "./User";
 import LoadingSpinner from "../../../../../components/LoadingSpinner";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../features/store";
 
 interface Props {
-  users: UserType[] | undefined;
   loading: boolean;
 }
 
-function InviteUsers({ users, loading }: Props) {
-  console.log("USERS: ", users);
+function InviteUsers({ loading }: Props) {
+  const { usersDataStore } = useSelector((state: RootState) => state.group);
   return (
     <div className="flex h-fit flex-wrap justify-start gap-[5px]">
       {loading ? (
         <LoadingSpinner />
       ) : (
-        users?.map((user: UserType, index: number) => {
+        usersDataStore?.users?.map((user: UserType, index: number) => {
           return <User key={index} user={user} />;
         })
       )}

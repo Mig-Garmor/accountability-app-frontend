@@ -1,12 +1,16 @@
 // ModalComponent.jsx (or .tsx if using TypeScript)
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../features/store";
 import { createGroup } from "../../sections/home/services/apiRequests";
+import { storeGroupId } from "../../features/groupStore/groupSlice";
+import { storeUserInfo } from "../../features/generalStore/generalSlice";
+import { CurrentUser } from "../../types/interfaceTypes";
 
 const ModalComponent = ({ onCancel, onAccept }) => {
-  const { modalData, modalOpen } = useSelector(
+  const dispatch = useDispatch();
+  const { modalData, modalOpen, userInfo } = useSelector(
     (state: RootState) => state.general
   );
 
@@ -28,6 +32,17 @@ const ModalComponent = ({ onCancel, onAccept }) => {
       modalContent.buttonRight = "Create group";
       acceptAction = async () => {
         const response = await createGroup();
+        if (response?.success) {
+          if (userInfo) {
+            const tempUserInfo: CurrentUser = {
+              ...userInfo,
+              groupId: response.group.id,
+            };
+            dispatch(storeGroupId(response.group.id));
+            localStorage.setItem("groupId", response.group.id.toString());
+            dispatch(storeUserInfo(tempUserInfo));
+          }
+        }
         console.log("Response: Create Group: ", response);
         onAccept();
       };

@@ -13,8 +13,10 @@ const fetchCurrentUser = async (): Promise<CurrentUser> => {
 };
 
 const useCurrentUser = (): UseQueryResult<CurrentUser, Error> => {
-  return useQuery<CurrentUser, Error>(["currentUser"], () =>
-    fetchCurrentUser()
+  return useQuery<CurrentUser, Error>(
+    ["currentUser"],
+    () => fetchCurrentUser(),
+    { staleTime: 1 * 1 * 1000 }
   );
 };
 

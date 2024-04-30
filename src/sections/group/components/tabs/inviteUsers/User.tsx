@@ -2,17 +2,27 @@ import { useState } from "react";
 import { UserType } from "../../../interfaceTypes";
 import CustomButton from "../../../../../components/buttons/CustomButton";
 import { inviteUser } from "../../../services/apiRequests";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../features/store";
 import { toast } from "react-toastify";
 import { APIResponse } from "../../../../../types/interfaceTypes";
+import { CgRemove } from "react-icons/cg";
+import IconButton from "../../../../../components/buttons/IconButton";
+import {
+  storeCustomModalComponent,
+  toggleCustomModal,
+} from "../../../../../features/generalStore/generalSlice";
+import { storeUserToRemove } from "../../../../../features/modalStore/modalSlice";
 
 interface Props {
   user: UserType;
 }
 
 function User({ user }: Props) {
-  const { groupId } = useSelector((state: RootState) => state.group);
+  const dispatch = useDispatch();
+  const { groupId, groupUserPermission } = useSelector(
+    (state: RootState) => state.group
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -21,7 +31,18 @@ function User({ user }: Props) {
   };
 
   return (
-    <div className="flex flex-col border border-black h-[100px] w-[200px] px-[10px] py-[10px] rounded-[4px]">
+    <div className="flex flex-col border border-black h-fit w-[200px] px-[10px] py-[10px] rounded-[4px]">
+      {groupUserPermission === "ADMIN" && (
+        <IconButton
+          Icon={CgRemove}
+          action={() => {
+            dispatch(storeUserToRemove(user.id));
+            dispatch(storeCustomModalComponent("confirmRemoveUserFromGroup"));
+            dispatch(toggleCustomModal());
+          }}
+        />
+      )}
+
       <h1 className="text-xl text-center mb-[10px]">{user.name}</h1>
       <CustomButton
         text={groupId === user.groupId ? "Group member" : "Invite User"}
@@ -30,7 +51,8 @@ function User({ user }: Props) {
           setLoading(true);
           if (groupId) {
             const response: APIResponse = await inviteUser(groupId, user.id);
-            if (response.data) {
+            console.log("INVITE USER RESPONSE: ", response);
+            if (response.success) {
               toast.success("Invite sent successfully");
             } else {
               console.log("RESPONSE ERROR: ", response);
