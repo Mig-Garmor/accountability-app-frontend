@@ -47,7 +47,7 @@ function ConfirmLeaveGroup() {
           action={async () => {
             setLoading(true);
             console.log("Leaving group");
-            const response = await exitGroup(userInfo?.id, groupId);
+            const response = await exitGroup(groupId, userInfo?.id);
             if (response?.success) {
               //@ts-expect-error groupId unused variable
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
